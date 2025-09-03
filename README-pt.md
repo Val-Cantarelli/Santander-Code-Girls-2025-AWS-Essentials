@@ -60,7 +60,7 @@ Cada modelo apresenta um grau distinto de responsabilidade entre o cliente e a A
 ### 2. AWS Management Console, AWS CLI e CloudShell
 - **Console:**  acessada pelo navegador. Intuitiva, ideal para iniciantes ou tarefas específicas.  
 - **CLI (Command Line Interface):** interface em linha de comando, ideal para automação, scripts e maior controle dos serviços. Requer configuração inicial de credenciais, mas é o mais usado em desenvolvimento.
-- **CloudShell**: ambiente dentro da AWS. Não consigo rodar os scripts locais, por exemplo, mas consigo visualizar informações da conta e serviços. 
+
 **Exemplos básicos (AWS CLI):**
 
 ```bash
@@ -74,7 +74,7 @@ aws s3 ls
 aws ec2 describe-instances
 
 
-
+- **CloudShell**: ambiente dentro da AWS. Não consigo rodar os scripts locais, por exemplo, mas consigo visualizar informações da conta e serviços. 
 
 
 ### 3. Amazon EC2 – Computação em Nuvem com VM
