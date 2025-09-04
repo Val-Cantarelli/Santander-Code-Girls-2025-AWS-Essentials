@@ -61,7 +61,7 @@ Em vez de configurar tudo manualmente, tem como utilizar uma AMI pronta com Open
 - Amazon S3 - Simple Storage Service
   - onde guardamos objetos(imagens, backups, logs, etc);
 
-  ** É pago por:**
+  **É pago por:**
   - espaço utilizado(GB/mês);
   - requisições(http);
   - envio de dados para fora do ambiente da AWS;(dentro da AWS muitas tranferências são gratuitas)

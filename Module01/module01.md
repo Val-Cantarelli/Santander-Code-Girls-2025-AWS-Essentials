@@ -47,7 +47,22 @@ Aqui vemos permissões que foram passadas ao usuário através do grupo ProjectO
 
 ![alt text](./images/policiesValdielenUser.png)
 
-### 2. Formas de acessar os serviços AWS: Console, AWS CLI e CloudShell
+
+### 2. Controle de gastos e alertas
+
+- **AWS Free Tier:** A AWS oferece uma camada gratuita (Free Tier) com limites mensais para muitos serviços por 12 meses. Fique atento para não ultrapassar esses limites.
+
+- **Billing Dashboard:** No Console da AWS, acesse o painel de faturamento (Billing Dashboard) para visualizar gastos atuais, histórico de cobranças e detalhes por serviço.
+
+- **Orçamentos (Budgets):** Você pode criar alertas de orçamento (Budgets) para ser notificado por e-mail quando atingir determinado valor de gasto.
+
+- **Cost Explorer:** Ferramenta visual para analisar e entender onde estão os principais custos.
+
+- **Alertas de uso:** Configure alertas para ser avisado quando estiver próximo de atingir o limite do Free Tier ou de um orçamento definido.
+
+- **Dica:** Sempre encerre (terminate) recursos que não estiver usando, como instâncias EC2, volumes EBS e buckets S3, para evitar cobranças desnecessárias.
+
+### 3. Formas de acessar os serviços AWS: Console, AWS CLI e CloudShell
 
 - **Console:** acessada pelo navegador. Mais intuitiva, ideal para iniciantes ou tarefas específicas.
 - **CLI (Command Line Interface):** interface em linha de comando, ideal para automação, scripts e maior controle dos serviços. Requer configuração inicial de credenciais, mas é o mais usado em desenvolvimento.
