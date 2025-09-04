@@ -1,4 +1,4 @@
-# Santander - CodeGirls2025 - AWS Essentials
+# Santander - CodeGirls2025
 
 > **Propósito do repositório:** documentar brevemente o conteúdo abordado durante o bootcamp **Santander Code Girls - 2025**, oferecido pela plataforma [Dio.me](https://www.dio.me/en).  
 > Não é um tutorial: para instruções detalhadas e atualizadas, consulte a [documentação oficial da AWS](https://docs.aws.amazon.com/).
