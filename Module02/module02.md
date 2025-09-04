@@ -14,6 +14,7 @@ O **EC2(Elastic Compute Cloud)** é o serviço de máquinas virtuais da AWS, sim
 
 E esses conceitos é que fazem uma instãncia de EC2: CPU e memória da VM + imagem + groupos que vão definir o tráfego de entrada e saída + keypair para acesso via SSH depois.
 
+![alt text](./images/ec2.png)
 
 ## Criando instância
 
