@@ -12,5 +12,7 @@
 1. [Módulo 1 – IAM, Login, Segurança, Console, CLI e CloudShell](./Module01/module01.md)  
 2. [Módulo 2 – Amazon EC2](./Module02/module02.md)  
 3. [Módulo 3 – Criação de recursos AWS](./Module03/module03.md)
+4. [Módulo 4 – Redes na AWS](./Module04/module04.md)
+Module04/module04.md
 
 
