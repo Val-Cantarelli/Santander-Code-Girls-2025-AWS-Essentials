@@ -30,19 +30,6 @@ Se tudo der certo, provavelmente você terá o seguinte:
 ![alt text](<./images/ssh-ec2.png>)
 
 
-
-
-### Exemplo de um caso de uso bem útil: VPC + OpenVPN
-
-Caso você tenha criado e isolado os recursos dentro de uma VPC - Virtual Private Cloud, você pode instalar um openVPN dentro da EC2 que te permite ter conexão direta e isolada com tudo  que está dentro da VPC(RDS, Lambda, etc) sem expôr esses recursos à internet. 
-
-
-![alt text](./images/diagramEC2OpenVpn.png)
-
-### Trade-off:
-
-Em vez de configurar tudo manualmente, tem como utilizar uma AMI pronta com OpenVPN disponível no AWS Marketplace ou optar por um serviço de VPN oferecido pela própria Amazon. A escolha depende do propósito: para empresas, esse custo faz parte do negócio; já para fins didáticos — onde o orçamento é muito limitado — vale muito a pena implementar a solução manualmente para aprender e compreender a complexidade do isolamento de rede em uma VPC.
-
 ## Desafio AWS: Criando um bucket S3 e hospedando um website estático
 
 Nesse módulo, vimos como criar um bucket S3 via console da AWS, enviar os arquivos, alterar a política permitindo leitura pública dos objetos. 
