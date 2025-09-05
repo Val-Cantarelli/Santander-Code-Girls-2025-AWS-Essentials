@@ -32,7 +32,7 @@ Se tudo der certo, provavelmente você terá o seguinte:
 
 
 
-### Caso de uso: VPC + OpenVPN
+### Exemplo de um caso de uso bem útil: VPC + OpenVPN
 
 Caso você tenha criado e isolado os recursos dentro de uma VPC - Virtual Private Cloud, você pode instalar um openVPN dentro da EC2 que te permite ter conexão direta e isolada com tudo  que está dentro da VPC(RDS, Lambda, etc) sem expôr esses recursos à internet. 
 
@@ -49,3 +49,5 @@ Nesse módulo, vimos como criar um bucket S3 via console da AWS, enviar os arqui
 
 Decidi então criar um [script](deploy_website_s3.sh) bash com AWS CLI e é possível ver o resultado neste endpoint: [DesafioAWS](http://dio-staticwebsite.s3-website-us-east-1.amazonaws.com/).
 
+> **Atenção:** O endpoint acima utiliza HTTP (não HTTPS). Navegadores modernos podem exibir avisos de segurança ao acessar o site, especialmente em modo anônimo/incógnito ou em dispositivos móveis.  
+> Para HTTPS, seria necessário configurar certificado SSL - não é o escopo da aula agora.
