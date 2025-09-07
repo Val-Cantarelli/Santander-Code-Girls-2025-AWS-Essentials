@@ -1,7 +1,9 @@
 
 # Redes na AWS
 
-- VPC: é uma rede isolada da internet dentro do cloud da AWS. O propósito de isolar recursos em uma VPC é garantir mais segurança, controle e organização. Assim, você evita que bancos de dados, servidores ou funções fiquem expostos diretamente na internet, reduzindo riscos e facilitando a gestão do ambiente.
+## Virtual Private Cloud - VPC
+
+É uma rede isolada da internet dentro do cloud da AWS. O propósito de isolar recursos em uma VPC é garantir mais segurança, controle e organização. Assim, você evita que bancos de dados, servidores ou funções fiquem expostos diretamente na internet, reduzindo riscos e facilitando a gestão do ambiente.
 
 
 ### Exemplo de um caso de uso bem útil: VPC + OpenVPN
@@ -10,8 +12,7 @@ Por exemplo: se você criou e isolou os recursos dentro de uma VPC (Virtual Priv
 
 
 
-![alt text](./images/diagramEC2OpenVpn.png)
-
+![alt text](/Module04/images/diagramEC2OpenVPN.png)
 
 ### Trade-off:
 
@@ -19,8 +20,11 @@ Em vez de configurar tudo manualmente, tem como utilizar uma AMI pronta com Open
 
 
 ---
+##  Subnets: são as redes onde você coloca os serviços. Podem ser privadas ou públicas.
 
-- Subnets: são as redes onde você coloca os serviços. Podem ser privadas ou públicas.
+
+
+
 - Security Groups (SG): funciona como um gateway. Ele decide quem pode acessar o recurso ou não;
 - Route 53: resolve o DNS para conectar internamente;
 - CloudFront:

@@ -13,6 +13,8 @@
 2. [Módulo 2 – Amazon EC2](./Module02/module02.md)  
 3. [Módulo 3 – Criação de recursos AWS](./Module03/module03.md)
 4. [Módulo 4 – Redes na AWS](./Module04/module04.md)
-Module04/module04.md
-
+5. [Módulo X – Redes na AWS](./Module0X/module0X.md)
+6. [Módulo X – Redes na AWS](./Module0X/module0X.md)
+7. [Módulo X – Redes na AWS](./Module0X/module0X.md)
+8. [Módulo X – Redes na AWS](./Module0X/module0X.md)
 
