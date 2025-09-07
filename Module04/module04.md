@@ -56,11 +56,9 @@ Exemplo: permitir SSH (porta 22) apenas do seu IP local.
 
 
 
----
+
 
 ## Extras:
-
----
 
 ### Atenção: Autorização é diferente de conectividade! 
 
@@ -86,8 +84,8 @@ Exemplo: permitir SSH (porta 22) apenas do seu IP local.
 
 Se você criou e isolou os recursos dentro de uma VPC (Virtual Private Cloud), é preciso de alguma forma chegar nesses recursos para fins de desenvolvimento/ testes. Então instalar um OpenVPN em uma EC2 te permite ter conexão segura e isolada com tudo que está dentro da VPC (RDS, Lambda, etc), sem expor esses recursos à internet. Ou seja, só quem estiver conectado via VPN consegue acessar esses serviços internos - se assim o recurso aceitar via Security Group, é claro.
 
+![VPC com OpenVPN para acesso seguro a recursos internos](./images/openVPNdiagram.png)
 
-![VPC com OpenVPN para acesso seguro a recursos internos](image-5.png)
 
 ### Trade-off:
 
