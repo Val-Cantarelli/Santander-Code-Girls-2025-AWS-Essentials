@@ -5,8 +5,9 @@
 
 É uma rede virtual isolada dentro da nuvem da AWS. Ao criá-la, escolhe-se uma faixa de endereços IP (CIDR block). O propósito de isolar recursos em uma VPC é garantir mais segurança, controle e organização. Se você pensar em nível de empresa, muitos serviços, setores...é interessante manter esse controle e organização entre serviços.
 
+>Leitura complementar: [VPC User Guide](https://docs.aws.amazon.com/vpc/latest/userguide/)
 
-##  Subnets
+## Subnets
 
 São divisões lógicas da VPC que determinam a **localização** e qual o **nível de exposição à internet** (pública ou privada): 
 
@@ -14,14 +15,12 @@ São divisões lógicas da VPC que determinam a **localização** e qual o **ní
 
 *Uma subnet é um recorte da faixa de IPs (CIDR) da VPC — ou seja, você divide a VPC em blocos menores de endereços. Cada subnet existe em uma única Availability Zone e serve para agrupar recursos com o mesmo propósito ou nível de exposição. Essa divisão é lógica (não física): você escolhe quais IPs pertencem a cada subnet e associa tabelas de rota e regras que determinam se os recursos naquela subnet podem acessar a internet diretamente (via Internet Gateway) ou apenas por meio de NAT.*
 
-
 - **Subnet privada**: apenas IP privados, portanto não acessíveis diretamente pela internet. Para acesso externo (ex: atualizações), configura-se um NAT Gateway ou NAT Instance(que só permite saída do tráfego).
 
 - **Subnet pública**: Permite que recursos tenham IP público(efêmeros ou via Elastic IP) e, portanto, sejam acessíveis pela internet, desde que haja um Internet Gateway( entrada e saída de tráfego) associado e rotas configuradas.
 
 
 >**Obs.:** O que define se uma subnet é pública ou privada é a presença (ou ausência) de uma rota para a internet por meio de um Internet Gateway na tabela de rotas associada a ela.
-
 
 Exemplos de uso:
 
@@ -45,16 +44,58 @@ Um **Security Group** funciona como um **firewall virtual**, que controla o trá
 
 Exemplo: permitir SSH (porta 22) apenas do seu IP local.
 
+>Leitura complementar: [Security Groups & NACLs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Security.html)
 
-## Route 53: resolve o DNS público e privado para conectar internamente;
+## Route 53: 
 
+- O Route 53 é o serviço de DNS da AWS: resolve nomes (ex: example.com) para endereços IP ou para outros recursos da AWS.
+- Hosted zones:
+  - **Public Hosted Zone:** DNS público, usado para expor sites e serviços para a Internet.
+  - **Private Hosted Zone:** DNS privado, associado a uma ou mais VPCs, usado para resolver nomes internamente (ex.: `db.internal.company` apontando para o endpoint do RDS).
+- Registros básicos:
+  - **A / AAAA:** apontam para um endereço IP.
+  - **CNAME:** apontam para outro nome (não permitido na raiz do domínio).
+  - **Alias:** recurso especial da AWS que permite apontar diretamente para CloudFront, ELB, S3 static website, etc. (recomendado para recursos AWS).
+- Políticas de roteamento (úteis para alta disponibilidade e testes):
+  - **Simple:** resposta única.
+  - **Weighted:** divide tráfego entre endpoints (útil para deploys canary).
+  - **Latency:** direciona para a região com menor latência para o usuário.
+  - **Failover:** usa health check para direcionar tráfego somente para endpoints saudáveis.
+  - **Geolocation / Geo-proximity:** roteia por localização geográfica.
+- Health checks: Route 53 pode monitorar endpoints e usar failover automático se um endpoint ficar indisponível.
+- Boas práticas:
+  - Use **Alias records** para apontar para recursos AWS (ELB, CloudFront, S3), evita custos e problemas de TTL.
+  - Para serviços internos, prefira **Private Hosted Zones** associadas às VPCs.
+  - Configure TTLs adequados conforme a necessidade de failover/propagação.
+- Exemplo prático: usar Route 53 + CloudFront para servir um site S3 com HTTPS (CloudFront fornece certificado via ACM; Route 53 aponta com alias pra distribuição).
 
+>[Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/)
 
 ## CloudFront:
-## Elastic Load Balancer: poderoso e muito utilizado.
+
+Para contexto sobre Edge Locations e a infraestrutura global da AWS, veja o módulo 1: [Infraestrutura global e Edge Locations](../Module01/module01.md).
+
+O Amazon CloudFront utiliza essas Edge Locations (PoPs) para replicar e servir conteúdo em cache próximo aos usuários, reduzindo latência e carga na origem, mais conhecido como Content Delivery Network - CDN.
+
+>[CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/)
+
+## Elastic Load Balancer: 
+
+É um serviço da AWS responsável por distribuir carga/gerenciar tráfego. Tem quatro tipos:
+1. Application Load Balancer: distribuindo baseado em regras: URLs, cabeçalhos. 
+    - Caso de uso: aplicativos que precisam de suporte WebSockets(várias requisições abertas)
+
+2. Network Load Balancer: gerencia em nível de rede TCP/UDP, fornece baixa latência;
+    - Caso de uso: serviços financeiros e jogos - alta performance
+
+3. Gateway Load Balancer: funções de load balancing + segurança de rede(firewall e detecção de intrusões)
+    - Caso de uso: 
+
+4. classic Load Balancer: é um load balancer LEGADO que distribui HTTP/HTTPS e TCP entre instâncias EC2.
+    - Caso de uso:  aplicativos desenvolvidos antes do ALBs e NLBs atuais. Também para arquiteturas não distribuídas 
 
 
-
+>[Elastic Load Balancing (ELB) - User Guide](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/)
 
 
 ## Extras:
