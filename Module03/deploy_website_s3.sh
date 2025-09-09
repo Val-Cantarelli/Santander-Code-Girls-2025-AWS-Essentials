@@ -1,6 +1,6 @@
 #!/bin/bash
 # Script to create an S3 bucket, upload website files, and set public read access
-# Run: ./deploy_website_s3.sh dio-staticwebsite websiteS3  
+# Run: ./Module03/deploy_website_s3.sh dio-staticWebsite websiteS3
 
 set -e
 
@@ -20,7 +20,7 @@ aws s3 mb s3://$BUCKET_NAME
 echo "Disabling block public access on bucket"
 aws s3api put-public-access-block --bucket $BUCKET_NAME --public-access-block-configuration BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false
 
-# 3. Ajust the policy
+# 3. Adjust the policy
 cat > /tmp/s3-public-policy.json <<EOL
 {
   "Version": "2012-10-17",
@@ -37,14 +37,14 @@ cat > /tmp/s3-public-policy.json <<EOL
 EOL
 aws s3api put-bucket-policy --bucket $BUCKET_NAME --policy file:///tmp/s3-public-policy.json
 
-# 4. Upload website files and exclude the ds_store
-echo "Uploading files"
-aws s3 sync $LOCAL_DIR s3://$BUCKET_NAME/ --exclude ".DS_Store" --exclude "*/.DS_Store"
+# 4. Upload website files
+echo "Uploading files from $LOCAL_DIR to s3://$BUCKET_NAME/"
+aws s3 sync $LOCAL_DIR s3://$BUCKET_NAME/ --acl public-read
 
-# 5. Enable static website hosting
+# 5. (Optional) Enable static website hosting
 echo "Enabling static website hosting on bucket"
 aws s3 website s3://$BUCKET_NAME/ --index-document index.html --error-document error.html
 
-#  print the endpoint
+# Output website endpoint
 echo "\nWebsite deployed!"
 echo "Access your site at: http://$BUCKET_NAME.s3-website-$(aws configure get region).amazonaws.com/"
