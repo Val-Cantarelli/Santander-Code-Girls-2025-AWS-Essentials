@@ -54,7 +54,6 @@ Aqui vemos permissões que foram passadas ao usuário através do grupo ProjectO
 
 > É **responsabilidade do cliente** acompanhar as alterações no serviço. Recentemente, julho/2025, a AWS alterou algumas políticas sobre a [Free Tier](https://aws.amazon.com/pt/free/terms/). A partir dessa data se você criar uma conta via IAM Identity Center você será direcionado ao Organizations que, por definição, é para empresas no modelo de conta paga - oefeito colateral é a perda dos benefícios da camada gratuita. Para utilizar a conta individual e usufruir dos benefícios da Free Tier é necessário crir o usuário via IAM comum.
 
-
 - **Billing Dashboard:** No Console da AWS, acesse o painel de faturamento (Billing Dashboard) para visualizar gastos atuais, histórico de cobranças e detalhes por serviço.
 
 - **Orçamentos (Budgets):** Você pode criar alertas de orçamento (Budgets) para ser notificado por e-mail quando atingir determinado valor de gasto.

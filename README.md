@@ -22,7 +22,7 @@
 3. [Módulo 3 – Criação de recursos AWS](./Module03/module03.md)
 4. [Módulo 4 – Redes na AWS](./Module04/module04.md)
 5. [Módulo 5 – Banco de dados na AWS](./Module05/module05.md)
-6. [Módulo X – xxxxxx](./Module0X/module0X.md)
-7. [Módulo X – xxxxxx](./Module0X/module0X.md)
+6. [Módulo 6 – Serviços de armazenamento e CDN](./Module06/module06.md)
+7. [Módulo 7 – Serviços intermediários e avançados](./Module07/module07.md)
 8. [Módulo X – xxxxxx](./Module0X/module0X.md)
 
