@@ -24,5 +24,5 @@
 5. [Módulo 5 – Banco de dados na AWS](./Module05/module05.md)
 6. [Módulo 6 – Serviços de armazenamento e CDN](./Module06/module06.md)
 7. [Módulo 7 – Serviços intermediários e avançados](./Module07/module07.md)
-8. [Módulo X – xxxxxx](./Module0X/module0X.md)
+8. [Módulo 8 – Gerenciamento e governança na AWS](./Module08/module08.md)
 
