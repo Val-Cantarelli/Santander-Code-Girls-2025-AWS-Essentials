@@ -9,8 +9,9 @@ Demonstrar o uso do AWS Step Functions para orquestrar uma Lambda que lista iten
 ### 1) Lambda Wrapper
 - Função: `MenuWrapperLambda` — consulta o endpoint `/menu-items` e retorna o resultado.
 - Criada Lambda wrapper para orquestração com Step Functions, evitando alterações na Lambda em produção que usa Mangum.
+![alt text](./images/wrapperLambda.png.png)
 
-![alt text](./images/wrapperLambda.png)
+
 
 ### 2) Role para Step Functions
 - A trust policy permite que o serviço Step Functions assuma a role (states.amazonaws.com).
