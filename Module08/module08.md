@@ -13,46 +13,7 @@ Boas práticas: habilitar um trail multi-região enviando logs para um bucket S3
 
 ## CloudFormation
 
-Automação e versionamento da criação de recursos na AWS.
+- Ferramenta de Infra-as-Code da AWS para criar, atualizar e deletar recursos de forma declarativa (YAML/JSON).
+- Ideal para automação, padronização e versionamento de infra em ambientes de desenvolvimento e produção.
 
-### Visão geral
-Este exercício mostra como criar uma AWS Lambda exposta por um API Gateway usando CloudFormation (template YAML). 
-
-
-#### 1. Criado o template [YAML](./lambdaViacloudFormation.YAML);
-
-#### 2. Validado o template: 
-```bash
-aws cloudformation validate-template --template-body file://Module08/lambdaViacloudFormation.YAML
-```
-
-#### 3. Feito deploy via AWS cli: 
-
-```bash
-aws cloudformation deploy \
-  --template-file Module08/lambdaViacloudFormation.YAML \
-  --stack-name HelloWorldStack \
-  --capabilities CAPABILITY_NAMED_IAM \
-    --profile <profile-name-from-aws> \
-  --region us-east-1
-```
-
-#### 4. Criado com sucess e recuperado o enpoint para chamar o API Gateway onde o lambda fica por trás:
-
-![alt text](./images/awsCLIstack.png)
-
-#### 5. Console CloudFormation AWS:
-
-![alt text](./images/helloWorldStack.png)
-
-#### 6. Lamda Function
-
-![alt text](./images/lambdaHelloWorld.png)
-
-#### 7. Browser:
-
-![alt text](./images/browser.png)
-
-
-
-
+## 
