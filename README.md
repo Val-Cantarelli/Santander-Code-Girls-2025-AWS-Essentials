@@ -25,4 +25,5 @@
 6. [Módulo 6 – Serviços de armazenamento e CDN](./Module06/module06.md)
 7. [Módulo 7 – Serviços intermediários e avançados](./Module07/module07.md)
 8. [Módulo 8 – Gerenciamento e governança na AWS](./Module08/module08.md)
-
+9. [Módulo 9 – Segurança na AWS](./Module09/module09.md)
+10. [Módulo 10 – Desenvolvimento e ferramentas](./Module10/module10.md)
