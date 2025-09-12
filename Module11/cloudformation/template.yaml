@@ -1,0 +1,171 @@
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description:  CloudFormation stack que cria um bucket S3 (gatilhos PUT), uma tabela DynamoDB, duas Lambdas e API Gateway para expor dados.
+
+Parameters:
+  CodeBucket:
+    Type: String
+    Description: Existing S3 bucket where Lambda code artifacts (zip files) are uploaded prior to deployment. This bucket must be created before deploying the stack.
+
+  CodePrefix:
+    Type: String
+    Default: Module11/
+    Description: Prefix/path inside the CodeBucket where artifacts will be placed (trailing slash optional).
+
+Resources:
+  UploadBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'codegirls-s3-${AWS::AccountId}-${AWS::Region}-${AWS::StackName}'
+      NotificationConfiguration:
+        LambdaConfigurations:
+          - Event: 's3:ObjectCreated:*'
+            Function: !GetAtt S3ProcessorFunction.Arn
+
+  DynamoTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub 'Uploads-${AWS::StackName}-${AWS::Region}'
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  S3ProcessorRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: S3ProcessorPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: arn:aws:logs:*:*:*
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                Resource: !Sub 'arn:aws:s3:::codegirls-s3-${AWS::AccountId}-${AWS::Region}-${AWS::StackName}/*'
+              - Effect: Allow
+                Action:
+                  - dynamodb:PutItem
+                Resource: !GetAtt DynamoTable.Arn
+
+  S3ProcessorFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub 's3-processor-${AWS::StackName}'
+      Handler: index.lambda_handler
+      Runtime: python3.11
+      Role: !GetAtt S3ProcessorRole.Arn
+      Code:
+        S3Bucket: !Ref CodeBucket
+        S3Key: !Sub '${CodePrefix}s3Processor.zip'
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref DynamoTable
+
+  ApiLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: ApiLambdaPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: arn:aws:logs:*:*:*
+              - Effect: Allow
+                Action:
+                  - dynamodb:Scan
+                Resource: !GetAtt DynamoTable.Arn
+
+  ApiGetItemFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub 'api-get-items-${AWS::StackName}'
+      Handler: index.lambda_handler
+      Runtime: python3.11
+      Role: !GetAtt ApiLambdaRole.Arn
+      Code:
+        S3Bucket: !Ref CodeBucket
+        S3Key: !Sub '${CodePrefix}apiGetItem.zip'
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref DynamoTable
+
+  ApiGatewayRestApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: !Sub 'api-${AWS::StackName}'
+
+  ApiResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId: !GetAtt ApiGatewayRestApi.RootResourceId
+      PathPart: items
+      RestApiId: !Ref ApiGatewayRestApi
+
+  ApiGetMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: GET
+      ResourceId: !Ref ApiResource
+      RestApiId: !Ref ApiGatewayRestApi
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub >-
+          arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ApiGetItemFunction.Arn}/invocations
+
+  LambdaPermissionForApi:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt ApiGetItemFunction.Arn
+      Action: lambda:InvokeFunction
+      
+      Principal: apigateway.amazonaws.com
+
+  LambdaPermissionForS3:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt S3ProcessorFunction.Arn
+      Action: lambda:InvokeFunction
+      Principal: s3.amazonaws.com
+      SourceAccount: !Ref AWS::AccountId
+
+Outputs:
+  ApiUrl:
+    Description: "Invoke URL for API"
+    Value: !Sub 'https://${ApiGatewayRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod/items'
+  BucketName:
+    Description: "Nome do bucket criado"
+    Value: !Ref UploadBucket
+
