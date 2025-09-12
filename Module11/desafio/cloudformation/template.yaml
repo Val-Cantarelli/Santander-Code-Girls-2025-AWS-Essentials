@@ -1,4 +1,3 @@
-
 AWSTemplateFormatVersion: '2010-09-09'
 Description:  CloudFormation stack que cria um bucket S3 (gatilhos PUT), uma tabela DynamoDB, duas Lambdas e API Gateway para expor dados.
 
@@ -168,4 +167,3 @@ Outputs:
   BucketName:
     Description: "Nome do bucket criado"
     Value: !Ref UploadBucket
-

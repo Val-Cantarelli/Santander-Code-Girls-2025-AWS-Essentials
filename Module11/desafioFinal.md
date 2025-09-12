@@ -1,5 +1,4 @@
-
-## S3 -> Lambda -> DynamoDB
+## Desafio final
 
 Foi configurado um template YAML para o CloudFormation e implementadas duas funções Lambda: uma acionada pelo S3 para processar uploads e gravar no DynamoDB, e outra exposta via API Gateway para retornar os dados.
 
@@ -48,12 +47,10 @@ aws s3 cp Module11/events/example.txt s3://<BucketName>/ --profile mfa-profile
 2. O endpoint retornado no output `ApiUrl` pode ser acessado com curl ou no navegador:
 
 ```bash
-curl 'https://<api-id>.execute-api.<region>.amazonaws.com/prod/items'
+curl 'https://<api-id>.execute-api.<region>.amazonaws.com'
 ```
 
 Será retornado um JSON com os itens persistidos no DynamoDB.
-
-
+![alt text](./images/image1.png)
 ![alt text](./images/image.png)
 
-![alt text](./images/image1.png)
