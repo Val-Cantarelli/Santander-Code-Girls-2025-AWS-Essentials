@@ -5,3 +5,32 @@
 # System files
 .DS_Store
 Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+venv/
+env/
+
+# Distributions / packaging
+dist/
+build/
+*.egg
+*.whl
+*.zip
+
+# Lambda artifacts
+**/dist/*.zip
+
+# Terraform / Cloud
+.terraform/
+
+# Logs
+*.log
+
+# IDEs
+.idea/
+
+# node
+node_modules/
