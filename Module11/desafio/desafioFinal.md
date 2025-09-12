@@ -30,7 +30,7 @@ Foi configurado um template YAML para o CloudFormation e implementadas duas fun√
 
 ```bash
 aws cloudformation deploy \
-	--template-file Module11/cloudformation/template.yaml \
+	--template-file Module11/desafio/cloudformation/template.yaml \
 	--stack-name codegirls-stack \
 	--profile <profile usado na aws cli> \
 	--capabilities CAPABILITY_IAM
@@ -51,6 +51,6 @@ curl 'https://<api-id>.execute-api.<region>.amazonaws.com'
 ```
 
 Ser√° retornado um JSON com os itens persistidos no DynamoDB.
-![alt text](./images/image1.png)
-![alt text](./images/image.png)
+![alt text](../images/image1.png)
+![alt text](../images/image.png)
 
