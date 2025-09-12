@@ -2,6 +2,9 @@
 
 Foi configurado um template YAML para o CloudFormation e implementadas duas funções Lambda: uma acionada pelo S3 para processar uploads e gravar no DynamoDB, e outra exposta via API Gateway para retornar os dados.
 
+![alt text](../images/diagramCase.png)
+
+
 ## O sistema é dividido em duas partes
 
 - **Parte 1:**
