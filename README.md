@@ -27,3 +27,4 @@
 8. [Módulo 8 – Gerenciamento e governança na AWS](./Module08/module08.md)
 9. [Módulo 9 – Segurança na AWS](./Module09/module09.md)
 10. [Módulo 10 – Desenvolvimento e ferramentas](./Module10/module10.md)
+11. [Módulo 11 – Automação e DevOps AWS](./Module11/module11.md)
