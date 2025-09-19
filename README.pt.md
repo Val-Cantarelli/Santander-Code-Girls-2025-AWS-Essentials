@@ -1,7 +1,7 @@
 
 
 <p align="center">
-  <img src="./iconSantander.png" alt="Santander - CodeGirls2025" width="240" />
+  <img src="./resources/iconSantander.png"  alt="Santander - CodeGirls2025" width="240" />
 </p>
 
 <h1 align="center">Santander - CodeGirls2025</h1>
