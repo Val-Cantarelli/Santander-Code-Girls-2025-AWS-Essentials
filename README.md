@@ -6,25 +6,26 @@
 
 <h1 align="center">Santander - CodeGirls2025</h1>
 
+- [English](README.md)
+- [Português](README.ch.md)
 
+> **Repository purpose:** Document briefly the content covered during the **Santander Code Girls - 2025** bootcamp, offered by the [Dio.me](https://www.dio.me/en) platform.  
+> This is not a tutorial: for detailed and updated instructions, consult the [official AWS documentation](https://docs.aws.amazon.com/).
 
-> **Propósito do repositório:** documentar brevemente o conteúdo abordado durante o bootcamp **Santander Code Girls - 2025**, oferecido pela plataforma [Dio.me](https://www.dio.me/en).  
-> Não é um tutorial: para instruções detalhadas e atualizadas, consulte a [documentação oficial da AWS](https://docs.aws.amazon.com/).
-
-> **Nível:** Bootcamp introdutório. Cobre conceitos básicos de computação em nuvem, próximos ao conteúdo exigido na certificação **AWS Certified Cloud Practitioner (CLF-C02)**.
+> **Level:** Introductory bootcamp. Covers basic cloud computing concepts, similar to the content required for the **AWS Certified Cloud Practitioner (CLF-C02)** certification.
 
 ---
 
-## Conteúdo
+## Content
 
-1. [Módulo 1 – IAM, Login, Segurança, Console, CLI e CloudShell](./Module01/module01.md)  
-2. [Módulo 2 – Amazon EC2](./Module02/module02.md)  
-3. [Módulo 3 – Criação de recursos AWS](./Module03/module03.md)
-4. [Módulo 4 – Redes na AWS](./Module04/module04.md)
-5. [Módulo 5 – Banco de dados na AWS](./Module05/module05.md)
-6. [Módulo 6 – Serviços de armazenamento e CDN](./Module06/module06.md)
-7. [Módulo 7 – Serviços intermediários e avançados](./Module07/module07.md)
-8. [Módulo 8 – Gerenciamento e governança na AWS](./Module08/module08.md)
-9. [Módulo 9 – Segurança na AWS](./Module09/module09.md)
-10. [Módulo 10 – Desenvolvimento e ferramentas](./Module10/module10.md)
-11. [Módulo 11 – Automação e DevOps AWS](./Module11/module11.md)
+1. [Module 1 – IAM, Login, Security, Console, CLI and CloudShell](./Module01/module01.md)  
+2. [Module 2 – Amazon EC2](./Module02/module02.md)  
+3. [Module 3 – AWS Resource Creation](./Module03/module03.md)
+4. [Module 4 – AWS Networking](./Module04/module04.md)
+5. [Module 5 – AWS Databases](./Module05/module05.md)
+6. [Module 6 – Storage Services and CDN](./Module06/module06.md)
+7. [Module 7 – Intermediate and Advanced Services](./Module07/module07.md)
+8. [Module 8 – AWS Management and Governance](./Module08/module08.md)
+9. [Module 9 – AWS Security](./Module09/module09.md)
+10. [Module 10 – Development and Tools](./Module10/module10.md)
+11. [Module 11 – AWS Automation and DevOps](./Module11/module11.md)
