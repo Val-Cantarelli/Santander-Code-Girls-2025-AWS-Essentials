@@ -3,25 +3,26 @@
 
 # EC2 - Elastic Compute Cloud
 
-O **EC2(Elastic Compute Cloud)** é o serviço de máquinas virtuais da AWS, similar ao VirtualBox, mas escalável e gerenciado na nuvem.
+**EC2 (Elastic Compute Cloud)** is AWS's virtual machine service, similar to VirtualBox, but scalable and managed in the cloud.
 
-## Conceitos principais:
-- **AMI (Amazon Machine Image):** imagem usada para inicializar a instância (Sistemas operacionais + configs). 
-    * **Imagem:** é um arquivo binário que representa tudo o que está armazenado no volume de uma máquina virtual, incluindo o sistema operacional e suas configurações. Se você quiser replicar uma instância EC2, basta criar ou usar a imagem (AMI) dela — através disso garante que todas as configurações e o ambiente sejam copiados na nova instância.
-- **Tipo da instância:** define recursos de CPU/memória;
-- **Security Group:** firewall virtual que controla tráfego - você usa ou cria um conforme a necessidade; 
-- **Key Pair:** chave usada para acessar a instância via SSH.
+## Main concepts:
+- **AMI (Amazon Machine Image):** image used to initialize the instance (Operating systems + configs). 
+    * **Image:** is a binary file that represents everything stored in the volume of a virtual machine, including the operating system and its configurations. If you want to replicate an EC2 instance, just create or use its image (AMI) — this ensures that all configurations and environment are copied to the new instance.
+- **Instance type:** defines CPU/memory resources;
+- **Security Group:** virtual firewall that controls traffic - you use or create one according to the need; 
+- **Key Pair:** key used to access the instance via SSH.
         
-  > **Atenção**: não é possível associar uma nova key pair após a criação da instância.
+  > **Warning**: it's not possible to associate a new key pair after instance creation.
 
-E esses conceitos é que fazem uma instância de EC2: CPU e memória da VM + imagem + groupos que vão definir o tráfego de entrada e saída + keypair para acesso via SSH depois.
-
-![alt text](./images/ec2.png)
+And these concepts are what make an EC2 instance: VM CPU and memory + image + groups that will define inbound and outbound traffic + keypair for SSH access later.
 
 
-### Custos e exemplos de negócios na AWS
+![alt text](./images/image.png)
 
-- O uso dos recursos influencia diretamente na cobrança:  
-  - **On-demand:** você paga apenas pelo tempo de uso da instância, sem compromisso de longo prazo.  
-  - **Reservado:** você se compromete com um período (ex: 1 ou 3 anos) e recebe desconto significativo.  
-  - **Spot:** utiliza capacidade ociosa da AWS com preços reduzidos, mas pode ser interrompida a qualquer momento. 
+
+### Costs and business examples in AWS
+
+- Resource usage directly influences billing:  
+  - **On-demand:** you pay only for the instance usage time, without long-term commitment.  
+  - **Reserved:** you commit to a period (ex: 1 or 3 years) and receive significant discount.  
+  - **Spot:** uses AWS idle capacity with reduced prices, but can be interrupted at any time. 
