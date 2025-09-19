@@ -1,10 +1,14 @@
+- [English](module09.md)
+- [Português](module09.pt.md)
+
+
 # Segurança na AWS
 
 ## Boas práticas
 
 De forma geral, o usuário tem que tomar decisões sobre quais dados devem ser protegidos e como. A AWS oferece o serviço, mas decisões de negócios obviamente são por parte do cliente.
 
-Já vimos sobre responsabilidade compartilhada e a diferença em cada serviço no [Module01](/Module01/module01.md#modelo-de-responsabilidade-compartilhada).
+Já vimos sobre responsabilidade compartilhada e a diferença em cada serviço no [Module01](/Module01/module01.pt.md#modelo-de-responsabilidade-compartilhada).
 
 ## Criptografia de dados na AWS
 

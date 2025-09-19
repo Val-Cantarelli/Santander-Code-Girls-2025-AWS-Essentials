@@ -1,10 +1,13 @@
+- [English](module09.md)
+- [Português](module09.pt.md)
+
 # AWS Security
 
 ## Best practices
 
 In general, the user has to make decisions about which data should be protected and how. AWS provides the service, but business decisions are obviously the customer's responsibility.
 
-We've already seen about shared responsibility and the difference in each service in [Module01](/Module01/module01.md#modelo-de-responsabilidade-compartilhada).
+We've already seen about shared responsibility and the difference in each service in [Module01](/Module01/module01.md#shared-responsibility-model).
 
 
 

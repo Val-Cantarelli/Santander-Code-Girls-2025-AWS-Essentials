@@ -1,35 +1,35 @@
 - [English](module07.md)
 - [Português](module07.pt.md)
 
-# Recursos avançados e intermediários da AWS
+# Advanced and intermediate AWS resources
 
 
 ## AWS Lambda
 
-- Serviço de computação serverless: você só escreve o código da função, sem se preocupar com servidores.
-- Executa funções sob demanda, em resposta a eventos (triggers).
-- Ainda tem servidor, mas a AWS é quem gerencia.
-- Outros serviços serverless: API Gateway, S3, DynamoDB, Cognito, SNS, SQS, Aurora Serverless.
-- EC2 (servidor virtual, escala manual ou gerenciada) x Lambda (stand by, escala automática, cobrado por requisição).
+- Serverless computing service: you only write the function code, without worrying about servers.
+- Executes functions on demand, in response to events (triggers).
+- Still has servers, but AWS manages them.
+- Other serverless services: API Gateway, S3, DynamoDB, Cognito, SNS, SQS, Aurora Serverless.
+- EC2 (virtual server, manual or managed scaling) x Lambda (stand by, automatic scaling, charged per request).
 
-### Exemplos de uso
+### Usage examples
 
-- Processamento de arquivos enviados para um bucket S3 (ex: só rodar se for `.csv`).
-- Automatização de tarefas, integração entre serviços, APIs sem servidor.
+- Processing files uploaded to an S3 bucket (ex: only run if it's `.csv`).
+- Task automation, service integration, serverless APIs.
 
-### Triggers (gatilhos)
+### Triggers
 
-- Lambda pode ser disparado por eventos do S3, DynamoDB, API Gateway, CloudWatch, etc.
-- Exemplo: Upload de um arquivo `.csv` no S3 → dispara a função Lambda para processar o arquivo.
+- Lambda can be triggered by events from S3, DynamoDB, API Gateway, CloudWatch, etc.
+- Example: Upload of a `.csv` file to S3 → triggers Lambda function to process the file.
 
-### Exemplo prático (Hello World com filtro CSV)
+### Practical example (Hello World with CSV filter)
 
 ```python
 def lambda_handler(event, context):
-    # Exemplo: só processa se o arquivo for .csv
+    # Example: only processes if the file is .csv
     key = event['Records'][0]['s3']['object']['key']
     if key.endswith('.csv'):
-        # processa o arquivo
+        # processes the file
         return {'status': 'CSV processed'}
     else:
         return {'status': 'Not a CSV'}
@@ -40,115 +40,115 @@ def lambda_handler(event, context):
 
 
 
-### Observações
+### Observations
 
-- Lambda: cobrada por número de invocações e pela duração (medida em GB‑seconds); há custo adicional para provisioned concurrency.
-- Tempo máximo de execução de uma função Lambda: 15 minutos.
-- Permite escalabilidade automática.
-- Cold start: depende do runtime, do tamanho do pacote e das dependências; provisioned concurrency reduz esse efeito.
+- Lambda: charged by number of invocations and duration (measured in GB‑seconds); there's additional cost for provisioned concurrency.
+- Maximum execution time for a Lambda function: 15 minutes.
+- Allows automatic scalability.
+- Cold start: depends on runtime, package size and dependencies; provisioned concurrency reduces this effect.
 
-## ECS e EKS
+## ECS and EKS
 
->Microservices: arquitetura que fragmenta uma aplicação em serviços pequenos e independentes — cada um com responsabilidade única, deployment próprio, possivelmente seu próprio armazenamento, e comunicação via APIs ou eventos; isso permite updates e escalabilidade isolada e reduz o impacto de deploys no restante do sistema.
+>Microservices: architecture that fragments an application into small and independent services — each with single responsibility, own deployment, possibly its own storage, and communication via APIs or events; this allows isolated updates and scalability and reduces the impact of deploys on the rest of the system.
 
 ![alt text](./images/monolithivsMicroService.png)
 
-### Elastic Container Service (ECS) e Elastic Kubernetes Service (EKS)
+### Elastic Container Service (ECS) and Elastic Kubernetes Service (EKS)
 
-Orquestram containers na nuvem — de forma análoga ao EC2, que orquestra VMs. O Amazon ECS é uma solução de orquestração integrada à AWS; o Amazon EKS é a oferta gerenciada de Kubernetes (projeto open‑source).
+Orchestrate containers in the cloud — analogously to EC2, which orchestrates VMs. Amazon ECS is an orchestration solution integrated with AWS; Amazon EKS is the managed offering of Kubernetes (open‑source project).
 
 ### ECS
 
-Como é feita a orquestração?
-- automatizar gerenciamento de clusters de containers que estão na Ec2 ou Fargate(serverless);
-- escalar;
-- integrar com outros serviços, seguranca nos acessos dos containers;
+How is orchestration done?
+- automate cluster management of containers that are on EC2 or Fargate (serverless);
+- scale;
+- integrate with other services, security in container access;
 
->O que são containers? Em um arquivo chamado Dockerfile escrevemos a "receita" do que vai ser a imagem: origem da imagem(site de onde é pega a imagem), dependências e comandos. Ao buildar o Dockerfile gera‑se uma imagem; ao rodar essa imagem com o Docker temos um container (instância em execução).
+>What are containers? In a file called Dockerfile we write the "recipe" of what the image will be: image origin (site where the image is taken from), dependencies and commands. When building the Dockerfile an image is generated; when running this image with Docker we have a container (running instance).
 
-#### Imagem x Container
+#### Image x Container
 
-Diferente de VMs, os containers não trazem um sistema operacional completo na imagem: eles compartilham o kernel da máquina host, por isso são leves e iniciam rapidamente.
+Unlike VMs, containers don't bring a complete operating system in the image: they share the host machine's kernel, that's why they are lightweight and start quickly.
 
- - Imagem vs container: a imagem é o template imutável (build); o container é a instância em execução dessa imagem.
- - Isolamento: containers isolam processos, redes e sistemas de arquivos usando namespaces e cgroups; eles compartilham o kernel do host (não virtualizam hardware), por isso são mais leves que VMs.
-## SNS e SQS
+ - Image vs container: the image is the immutable template (build); the container is the running instance of that image.
+ - Isolation: containers isolate processes, networks and file systems using namespaces and cgroups; they share the host kernel (don't virtualize hardware), that's why they are lighter than VMs.
+## SNS and SQS
 
-### SNS — Simple Notification Service (assíncrono)
+### SNS — Simple Notification Service (asynchronous)
 
-- Serviço de publisher/subscriber para envio de mensagens (push) a múltiplos destinos.
-- Casos de uso: alertas/monitoramento, fan‑out entre microserviços, notificações móveis, integração entre sistemas.
-- Endpoints suportados: Lambda, SQS, HTTP/HTTPS, email, SMS, mobile push.
-- Fan‑out: publica uma mensagem em um tópico; SNS entrega para todos os assinantes do tópico (por exemplo, várias filas SQS ou funções Lambda).
-- Filtragem de mensagens: é possível definir políticas de filtro por atributos para que assinantes recebam apenas mensagens relevantes.
-- Entrega e durabilidade: retries configuráveis, integração com DLQs via SQS; mensagens podem ser criptografadas com KMS.
-- Segurança: controle por IAM e políticas de tópico; confirmação/validação para endpoints HTTP(S).
-- Diferença principal para SQS: SNS é push/pub‑sub (multiponto); SQS é fila pull (consumo individual, ordenação/TTL/visibilidade).
+- Publisher/subscriber service for sending messages (push) to multiple destinations.
+- Use cases: alerts/monitoring, fan‑out between microservices, mobile notifications, system integration.
+- Supported endpoints: Lambda, SQS, HTTP/HTTPS, email, SMS, mobile push.
+- Fan‑out: publishes a message to a topic; SNS delivers to all topic subscribers (for example, multiple SQS queues or Lambda functions).
+- Message filtering: it's possible to define filter policies by attributes so subscribers receive only relevant messages.
+- Delivery and durability: configurable retries, integration with DLQs via SQS; messages can be encrypted with KMS.
+- Security: control by IAM and topic policies; confirmation/validation for HTTP(S) endpoints.
+- Main difference from SQS: SNS is push/pub‑sub (multipoint); SQS is pull queue (individual consumption, ordering/TTL/visibility).
 
-O Standard é o mais utilizado; o FIFO é recomendado quando a ordem das mensagens e deduplicação são cruciais (ex.: operações financeiras).
+Standard is the most used; FIFO is recommended when message order and deduplication are crucial (ex.: financial operations).
 
 ![alt text](./images/typesSNS.png)
 
-### SQS — Simple Queue Service (fila)
+### SQS — Simple Queue Service (queue)
 
-Também é um sistema de entrega de mensagens, mas baseado em filas (pull):
+It's also a message delivery system, but based on queues (pull):
 
-- SQS = fila pull, feito para comunicação organizada e resiliente entre serviços. Produtor coloca a mensagem na fila; consumidores fazem polling e processam no próprio ritmo.
-- Suporta visibilidade, retries, DLQ e retenção até o processamento.
+- SQS = pull queue, made for organized and resilient communication between services. Producer puts the message in the queue; consumers do polling and process at their own pace.
+- Supports visibility, retries, DLQ and retention until processing.
 
-Exemplo prático:
+Practical example:
 
-- Notificação imediata ao usuário: SNS → email/SMS/Lambda (push).
-- Processamento assíncrono por workers: produtor envia para SQS → vários workers fazem pull e processam (desacoplamento, tolerância a falhas).
-- Combinação comum: SNS publica um evento e entrega a várias SQS (fan‑out) para que cada serviço consuma de forma independente e organizada.
+- Immediate notification to user: SNS → email/SMS/Lambda (push).
+- Asynchronous processing by workers: producer sends to SQS → multiple workers pull and process (decoupling, fault tolerance).
+- Common combination: SNS publishes an event and delivers to multiple SQS (fan‑out) so each service consumes independently and organized.
 
-Observações rápidas:
+Quick observations:
 
-- SNS tende a entregar imediatamente; SQS garante que a mensagem fique persistida até o consumo.
-- Trate idempotência porque ambos podem entregar duplicatas (use FIFO se precisar de ordem/sem duplicatas).
-- Combinação comum: SNS publica um evento e entrega a várias SQS (fan‑out) para que cada serviço consuma de forma independente e organizada.
+- SNS tends to deliver immediately; SQS ensures the message remains persisted until consumption.
+- Handle idempotency because both can deliver duplicates (use FIFO if you need order/no duplicates).
+- Common combination: SNS publishes an event and delivers to multiple SQS (fan‑out) so each service consumes independently and organized.
 
-Observações rápidas:
+Quick observations:
 
-- SNS tende a entregar imediatamente, SQS garante que a mensagem fique persistida até o consumo.
-- Trate idempotência porque ambos podem entregar duplicatas (use FIFO se precisar de ordem/sem duplicatas).
+- SNS tends to deliver immediately, SQS ensures the message remains persisted until consumption.
+- Handle idempotency because both can deliver duplicates (use FIFO if you need order/no duplicates).
 
 
 ## Step Functions
 
-Step Functions é o serviço da AWS para orquestrar fluxos de trabalho (state machines) entre serviços serverless e microserviços, oferecendo visibilidade, retries e tratamento de erros de forma declarativa.
+Step Functions is AWS's service for orchestrating workflows (state machines) between serverless services and microservices, offering visibility, retries and error handling in a declarative way.
 
-### O que é
+### What it is
 
-- Serviço de orquestração baseado em máquinas de estado (state machines).
-- Permite definir passos (Task), condicionais (Choice), paralelismo (Parallel), mapeamento de coleções (Map), esperas (Wait) e estados finais (Succeed / Fail).
+- Orchestration service based on state machines.
+- Allows defining steps (Task), conditionals (Choice), parallelism (Parallel), collection mapping (Map), waits (Wait) and final states (Succeed / Fail).
 
-### Principais recursos
+### Main features
 
-- Estados reutilizáveis: Task, Choice, Parallel, Wait, Map, Succeed, Fail, Pass.
-- Resiliência: retries e catch por estado, timeouts e tratamento de erros integrado.
-- Observabilidade: histórico de execução visual no console e integração com CloudWatch Logs/Metrics.
-- Integrações diretas: Lambda, ECS, Batch, SNS, SQS, API Gateway e mais (reduz código glue).
-- Tipos de execução: Standard (durável, histórico completo) e Express (alto throughput, custo otimizado para execuções curtas).
+- Reusable states: Task, Choice, Parallel, Wait, Map, Succeed, Fail, Pass.
+- Resilience: retries and catch per state, timeouts and integrated error handling.
+- Observability: visual execution history in console and integration with CloudWatch Logs/Metrics.
+- Direct integrations: Lambda, ECS, Batch, SNS, SQS, API Gateway and more (reduces glue code).
+- Execution types: Standard (durable, complete history) and Express (high throughput, cost optimized for short executions).
 
-### Quando usar
+### When to use
 
-- Orquestrar processos multi‑etapa (por exemplo: pagamento → estoque → notificação).
-- Substituir scripts ou coordenação ad‑hoc entre serviços.
-- Pipelines de dados, workflows de negócios e tarefas que precisam de retries e visibilidade.
+- Orchestrate multi‑step processes (for example: payment → inventory → notification).
+- Replace scripts or ad‑hoc coordination between services.
+- Data pipelines, business workflows and tasks that need retries and visibility.
 
-### Exemplo passo a passo
+### Step-by-step example
 
-1. order.created (evento)
-2. validar pedido — Task (Lambda)
-3. processar pagamento — Task (serviço externo ou Lambda) com retries
-4. confirmar estoque — Parallel (checar múltiplos centros)
-5. enviar confirmação ao cliente — Task (SNS ou Lambda)
-6. Succeed (ou Catch → fluxo de compensação)
+1. order.created (event)
+2. validate order — Task (Lambda)
+3. process payment — Task (external service or Lambda) with retries
+4. confirm inventory — Parallel (check multiple centers)
+5. send confirmation to customer — Task (SNS or Lambda)
+6. Succeed (or Catch → compensation flow)
 
-Dica: modele estados pequenos e idempotentes; use retries e catches para tornar o workflow tolerante a falhas temporárias.
+Tip: model small and idempotent states; use retries and catches to make the workflow tolerant to temporary failures.
 
-### Observações
+### Observations
 
-- Custo: Standard cobra por state transitions; Express cobra por duração/throughput — escolha conforme padrão de uso.
-- Teste local: use SAM CLI ou Step Functions Local para testar antes do deploy.
+- Cost: Standard charges per state transitions; Express charges per duration/throughput — choose according to usage pattern.
+- Local testing: use SAM CLI or Step Functions Local to test before deployment.

@@ -1,3 +1,7 @@
+- [English](module10.md)
+- [Português](module10.pt.md)
+
+
 # Development and tools
 
 ## SDK and AWS CLI
