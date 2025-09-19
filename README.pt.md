@@ -7,7 +7,7 @@
 <h1 align="center">Santander - CodeGirls2025</h1>
 
 - [English](README.md)
-- [Português](README.ch.md)
+- [Português](README.pt.md)
 
 > **Propósito do repositório:** documentar brevemente o conteúdo abordado durante o bootcamp **Santander Code Girls - 2025**, oferecido pela plataforma [Dio.me](https://www.dio.me/en).  
 > Não é um tutorial: para instruções detalhadas e atualizadas, consulte a [documentação oficial da AWS](https://docs.aws.amazon.com/).

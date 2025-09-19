@@ -7,7 +7,7 @@
 <h1 align="center">Santander - CodeGirls2025</h1>
 
 - [English](README.md)
-- [Português](README.ch.md)
+- [Português](README.pt.md)
 
 > **Repository purpose:** Document briefly the content covered during the **Santander Code Girls - 2025** bootcamp, offered by the [Dio.me](https://www.dio.me/en) platform.  
 > This is not a tutorial: for detailed and updated instructions, consult the [official AWS documentation](https://docs.aws.amazon.com/).
