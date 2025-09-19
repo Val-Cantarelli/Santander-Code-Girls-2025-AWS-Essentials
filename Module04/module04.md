@@ -1,98 +1,99 @@
+- [English](module04.md)
+- [Português](module04.pt.md)
 
-# Redes na AWS
+# AWS Networking
 
 ## Virtual Private Cloud - VPC
 
-É uma rede virtual isolada dentro da nuvem da AWS. Ao criá-la, escolhe-se uma faixa de endereços IP (CIDR block). O propósito de isolar recursos em uma VPC é garantir mais segurança, controle e organização. Se você pensar em nível de empresa, muitos serviços, setores...é interessante manter esse controle e organização entre serviços.
+It is an isolated virtual network within the AWS cloud. When creating it, you choose an IP address range (CIDR block). The purpose of isolating resources in a VPC is to ensure more security, control and organization. If you think at the enterprise level, many services, sectors...it's interesting to maintain this control and organization between services.
 
->Leitura complementar: [VPC User Guide](https://docs.aws.amazon.com/vpc/latest/userguide/)
+>Complementary reading: [VPC User Guide](https://docs.aws.amazon.com/vpc/latest/userguide/)
 
 ## Subnets
 
-São divisões lógicas da VPC que determinam a **localização** e qual o **nível de exposição à internet** (pública ou privada): 
+They are logical divisions of the VPC that determine the **location** and what **level of internet exposure** (public or private): 
 
-***O que significa essa divisão lógica?***
+***What does this logical division mean?***
 
-*Uma subnet é um recorte da faixa de IPs (CIDR) da VPC — ou seja, você divide a VPC em blocos menores de endereços. Cada subnet existe em uma única Availability Zone e serve para agrupar recursos com o mesmo propósito ou nível de exposição. Essa divisão é lógica (não física): você escolhe quais IPs pertencem a cada subnet e associa tabelas de rota e regras que determinam se os recursos naquela subnet podem acessar a internet diretamente (via Internet Gateway) ou apenas por meio de NAT.*
+*A subnet is a slice of the VPC's IP range (CIDR) — that is, you divide the VPC into smaller address blocks. Each subnet exists in a single Availability Zone and serves to group resources with the same purpose or exposure level. This division is logical (not physical): you choose which IPs belong to each subnet and associate route tables and rules that determine whether resources in that subnet can access the internet directly (via Internet Gateway) or only through NAT.*
 
-- **Subnet privada**: apenas IP privados, portanto não acessíveis diretamente pela internet. Para acesso externo (ex: atualizações), configura-se um NAT Gateway ou NAT Instance(que só permite saída do tráfego).
+- **Private subnet**: only private IPs, therefore not directly accessible from the internet. For external access (e.g.: updates), a NAT Gateway or NAT Instance is configured (which only allows outbound traffic).
 
-- **Subnet pública**: Permite que recursos tenham IP público(efêmeros ou via Elastic IP) e, portanto, sejam acessíveis pela internet, desde que haja um Internet Gateway( entrada e saída de tráfego) associado e rotas configuradas.
+- **Public subnet**: Allows resources to have public IP (ephemeral or via Elastic IP) and, therefore, be accessible from the internet, as long as there is an associated Internet Gateway (inbound and outbound traffic) and configured routes.
 
+>**Note:** What defines whether a subnet is public or private is the presence (or absence) of a route to the internet through an Internet Gateway in the route table associated with it.
 
->**Obs.:** O que define se uma subnet é pública ou privada é a presença (ou ausência) de uma rota para a internet por meio de um Internet Gateway na tabela de rotas associada a ela.
+Usage examples:
 
-Exemplos de uso:
+1. A database (like RDS) is usually placed in a private subnet, so it's not directly accessible from the internet. Even if it needs to connect to the internet (e.g.: for updates), this can be done through a NAT Gateway.
 
-1. Um banco de dados (como RDS) geralmente é colocado em uma subnet privada, para que não fique acessível diretamente da internet. Mesmo que ele precise se conectar à internet (ex: para atualizações), isso pode ser feito por meio de um NAT Gateway.
-
-2. Já um servidor web (como uma instância EC2 que roda um site) normalmente fica em uma subnet pública, com um IP público e acesso via Internet Gateway, permitindo que usuários acessem o site de fora da AWS, de qualquer lugar da internet.
+2. A web server (like an EC2 instance running a website) is normally in a public subnet, with a public IP and access via Internet Gateway, allowing users to access the site from outside AWS, from anywhere on the internet.
 
 ![alt text](/Module04/images/amazonSubnet.png)
 
 
 ## Security Groups (SG)
 
-Um **Security Group** funciona como um **firewall virtual**, que controla o tráfego de entrada (**inbound**) e saída (**outbound**) para recursos em uma VPC, como instâncias EC2, bancos de dados, entre outros.
+A **Security Group** functions as a **virtual firewall**, which controls inbound and outbound traffic for resources in a VPC, such as EC2 instances, databases, among others.
 
-### Características principais:
-- Associado a um recurso específico (ex: uma instância EC2);
-- Permite regras baseadas em:
-  - Protocolo (TCP, UDP, ICMP...)
-  - Porta (ex: 22, 80, 443)
-  - Origem ou destino (ex: um IP, uma faixa CIDR, outro SG)
+### Main characteristics:
+- Associated with a specific resource (e.g.: an EC2 instance);
+- Allows rules based on:
+  - Protocol (TCP, UDP, ICMP...)
+  - Port (e.g.: 22, 80, 443)
+  - Source or destination (e.g.: an IP, a CIDR range, another SG)
 
-Exemplo: permitir SSH (porta 22) apenas do seu IP local.
+Example: allow SSH (port 22) only from your local IP.
 
->Leitura complementar: [Security Groups & NACLs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Security.html)
+>Complementary reading: [Security Groups & NACLs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Security.html)
 
 ## Route 53: 
 
-- O Route 53 é o serviço de DNS da AWS: resolve nomes (ex: example.com) para endereços IP ou para outros recursos da AWS.
+- Route 53 is AWS's DNS service: resolves names (e.g.: example.com) to IP addresses or to other AWS resources.
 - Hosted zones:
-  - **Public Hosted Zone:** DNS público, usado para expor sites e serviços para a Internet.
-  - **Private Hosted Zone:** DNS privado, associado a uma ou mais VPCs, usado para resolver nomes internamente (ex.: `db.internal.company` apontando para o endpoint do RDS).
-- Registros básicos:
-  - **A / AAAA:** apontam para um endereço IP.
-  - **CNAME:** apontam para outro nome (não permitido na raiz do domínio).
-  - **Alias:** recurso especial da AWS que permite apontar diretamente para CloudFront, ELB, S3 static website, etc. (recomendado para recursos AWS).
-- Políticas de roteamento (úteis para alta disponibilidade e testes):
-  - **Simple:** resposta única.
-  - **Weighted:** divide tráfego entre endpoints (útil para deploys canary).
-  - **Latency:** direciona para a região com menor latência para o usuário.
-  - **Failover:** usa health check para direcionar tráfego somente para endpoints saudáveis.
-  - **Geolocation / Geo-proximity:** roteia por localização geográfica.
-- Health checks: Route 53 pode monitorar endpoints e usar failover automático se um endpoint ficar indisponível.
-- Boas práticas:
-  - Use **Alias records** para apontar para recursos AWS (ELB, CloudFront, S3), evita custos e problemas de TTL.
-  - Para serviços internos, prefira **Private Hosted Zones** associadas às VPCs.
-  - Configure TTLs adequados conforme a necessidade de failover/propagação.
-- Exemplo prático: usar Route 53 + CloudFront para servir um site S3 com HTTPS (CloudFront fornece certificado via ACM; Route 53 aponta com alias pra distribuição).
+  - **Public Hosted Zone:** public DNS, used to expose sites and services to the Internet.
+  - **Private Hosted Zone:** private DNS, associated with one or more VPCs, used to resolve names internally (e.g.: `db.internal.company` pointing to the RDS endpoint).
+- Basic records:
+  - **A / AAAA:** point to an IP address.
+  - **CNAME:** point to another name (not allowed at domain root).
+  - **Alias:** special AWS feature that allows pointing directly to CloudFront, ELB, S3 static website, etc. (recommended for AWS resources).
+- Routing policies (useful for high availability and testing):
+  - **Simple:** single response.
+  - **Weighted:** divides traffic between endpoints (useful for canary deploys).
+  - **Latency:** directs to the region with lowest latency for the user.
+  - **Failover:** uses health check to direct traffic only to healthy endpoints.
+  - **Geolocation / Geo-proximity:** routes by geographic location.
+- Health checks: Route 53 can monitor endpoints and use automatic failover if an endpoint becomes unavailable.
+- Best practices:
+  - Use **Alias records** to point to AWS resources (ELB, CloudFront, S3), avoids costs and TTL issues.
+  - For internal services, prefer **Private Hosted Zones** associated with VPCs.
+  - Configure appropriate TTLs according to failover/propagation needs.
+- Practical example: use Route 53 + CloudFront to serve an S3 site with HTTPS (CloudFront provides certificate via ACM; Route 53 points with alias to distribution).
 
 >[Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/)
 
 ## CloudFront:
 
-Para contexto sobre Edge Locations e a infraestrutura global da AWS, veja o módulo 1: [Infraestrutura global e Edge Locations](../Module01/module01.md).
+For context about Edge Locations and AWS global infrastructure, see module 1: [Global infrastructure and Edge Locations](../Module01/module01.md).
 
-O Amazon CloudFront utiliza essas Edge Locations (PoPs) para replicar e servir conteúdo em cache próximo aos usuários, reduzindo latência e carga na origem, mais conhecido como Content Delivery Network - CDN.
+Amazon CloudFront uses these Edge Locations (PoPs) to replicate and serve cached content close to users, reducing latency and load on the origin, better known as Content Delivery Network - CDN.
 
 >[CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/)
 
 ## Elastic Load Balancer: 
 
-É um serviço da AWS responsável por distribuir carga/gerenciar tráfego. Tem quatro tipos:
-1. Application Load Balancer: distribuindo baseado em regras: URLs, cabeçalhos. 
-    - Caso de uso: aplicativos que precisam de suporte WebSockets(várias requisições abertas)
+It is an AWS service responsible for distributing load/managing traffic. It has four types:
+1. Application Load Balancer: distributing based on rules: URLs, headers. 
+    - Use case: applications that need WebSocket support (multiple open requests)
 
-2. Network Load Balancer: gerencia em nível de rede TCP/UDP, fornece baixa latência;
-    - Caso de uso: serviços financeiros e jogos - alta performance
+2. Network Load Balancer: manages at TCP/UDP network level, provides low latency;
+    - Use case: financial services and games - high performance
 
-3. Gateway Load Balancer: funções de load balancing + segurança de rede(firewall e detecção de intrusões)
-    - Caso de uso: 
+3. Gateway Load Balancer: load balancing functions + network security (firewall and intrusion detection)
+    - Use case: 
 
-4. classic Load Balancer: é um load balancer LEGADO que distribui HTTP/HTTPS e TCP entre instâncias EC2.
-    - Caso de uso:  aplicativos desenvolvidos antes do ALBs e NLBs atuais. Também para arquiteturas não distribuídas 
+4. Classic Load Balancer: it's a LEGACY load balancer that distributes HTTP/HTTPS and TCP between EC2 instances.
+    - Use case: applications developed before current ALBs and NLBs. Also for non-distributed architectures 
 
 
 >[Elastic Load Balancing (ELB) - User Guide](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/)
@@ -100,33 +101,33 @@ O Amazon CloudFront utiliza essas Edge Locations (PoPs) para replicar e servir c
 
 ## Extras:
 
-### Atenção: Autorização é diferente de conectividade! 
+### Attention: Authorization is different from connectivity! 
 
-É comum confundir **permissões de uso de recursos** com **acesso à rede**. Mas são coisas diferentes e complementares:
+It's common to confuse **resource usage permissions** with **network access**. But they are different and complementary things:
 
-| Aspecto             | Segurança em rede                        | Permissões de recursos (IAM)                |
-|---------------------|------------------------------------------|---------------------------------------------|
-| **Ferramenta**      | Security Groups, NACLs                   | IAM Policies, Roles, Users                  |
-| **Controla**        | Quem pode se conectar à rede             | O que um usuário/serviço pode fazer         |
-| **Exemplo**         | "Permitir acesso à porta 3306 do RDS"    | "Permitir que a EC2 acesse o S3 via API"    |
-| **Bloqueia o quê?** | Tráfego (IP/porta/protocolo)             | Ações (ex: `s3:GetObject`, `ec2:Start`)     |
+| Aspect              | Network security                         | Resource permissions (IAM)               |
+|---------------------|------------------------------------------|------------------------------------------|
+| **Tool**            | Security Groups, NACLs                   | IAM Policies, Roles, Users               |
+| **Controls**        | Who can connect to the network           | What a user/service can do               |
+| **Example**         | "Allow access to RDS port 3306"          | "Allow EC2 to access S3 via API"        |
+| **What it blocks?** | Traffic (IP/port/protocol)               | Actions (e.g.: `s3:GetObject`, `ec2:Start`) |
 
-### Exemplo real:
-- Você pode ter uma instância EC2 com **acesso de rede liberado ao S3**, mas **sem permissão IAM** para listar objetos — logo, a chamada falha.
-- Ou pode ter **permissão IAM para acessar o banco de dados RDS**, mas se o **Security Group não permitir tráfego na porta 3306**, a conexão será bloqueada.
+### Real example:
+- You can have an EC2 instance with **network access enabled to S3**, but **without IAM permission** to list objects — so the call fails.
+- Or you can have **IAM permission to access the RDS database**, but if the **Security Group doesn't allow traffic on port 3306**, the connection will be blocked.
 
 ---
 
-> **Resumo**: Acesso à rede (Security Group) permite o tráfego até o recurso. Permissões (IAM) autorizam o que pode ser feito com o recurso.
+> **Summary**: Network access (Security Group) allows traffic to the resource. Permissions (IAM) authorize what can be done with the resource.
 
 
-### Exemplo de um caso de uso: VPC + OpenVPN
+### Example of a use case: VPC + OpenVPN
 
-Se você criou e isolou os recursos dentro de uma VPC (Virtual Private Cloud), é preciso de alguma forma chegar nesses recursos para fins de desenvolvimento/ testes. Então instalar um OpenVPN em uma EC2 te permite ter conexão segura e isolada com tudo que está dentro da VPC (RDS, Lambda, etc), sem expor esses recursos à internet. Ou seja, só quem estiver conectado via VPN consegue acessar esses serviços internos - se assim o recurso aceitar via Security Group, é claro.
+If you created and isolated resources within a VPC (Virtual Private Cloud), you need some way to reach these resources for development/testing purposes. So installing an OpenVPN on an EC2 allows you to have a secure and isolated connection with everything inside the VPC (RDS, Lambda, etc), without exposing these resources to the internet. That is, only those connected via VPN can access these internal services - if the resource accepts it via Security Group, of course.
 
-![VPC com OpenVPN para acesso seguro a recursos internos](./images/openVPNdiagram.png)
+![VPC with OpenVPN for secure access to internal resources](./images/openVPNdiagram.png)
 
 
 ### Trade-off:
 
-Ao invés de configurar tudo manualmente, tem como utilizar uma AMI pronta com OpenVPN disponível no AWS Marketplace ou optar por um serviço de VPN oferecido pela própria Amazon. A escolha depende do propósito: para empresas, esse custo faz parte do negócio; já para fins didáticos — onde o orçamento é muito limitado — vale muito a pena implementar a solução manualmente para aprender e compreender a complexidade do isolamento de rede em uma VPC.
+Instead of configuring everything manually, you can use a ready-made AMI with OpenVPN available on AWS Marketplace or opt for a VPN service offered by Amazon itself. The choice depends on the purpose: for companies, this cost is part of the business; for educational purposes — where the budget is very limited — it's very worth implementing the solution manually to learn and understand the complexity of network isolation in a VPC.

@@ -9,7 +9,8 @@
 - [English](README.md)
 - [Português](README.pt.md)
 
-> **Repository purpose:** Document briefly the content covered during the **Santander Code Girls - 2025** bootcamp, offered by the [Dio.me](https://www.dio.me/en) platform.  
+> **Repository purpose:** Document briefly the content covered during the **Santander Code Girls - 2025** bootcamp, offered by the [Dio.me](https://www.dio.me/en) platform in collaboration with Santander Brazil.
+
 > This is not a tutorial: for detailed and updated instructions, consult the [official AWS documentation](https://docs.aws.amazon.com/).
 
 > **Level:** Introductory bootcamp. Covers basic cloud computing concepts, similar to the content required for the **AWS Certified Cloud Practitioner (CLF-C02)** certification.

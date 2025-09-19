@@ -1,43 +1,43 @@
-# Gerenciamento e governança AWS
+# AWS Management and Governance
 
 ## CloudWatch 
 
-Gera métricas, logs e dashboards para monitoramento operacional de recursos e aplicações (CPU, latência, erros, etc.).
-Principais usos: coleta de métricas customizadas, centralização de logs (CloudWatch Logs), criação de alarmes (SNS/ações) e dashboards operacionais.
-Boas práticas: instrumentar apenas métricas necessárias, configurar retenção de logs apropriada, evitar alertas ruidosos e integrar com alarmes/auto-scaling.
+Generates metrics, logs and dashboards for operational monitoring of resources and applications (CPU, latency, errors, etc.).
+Main uses: custom metrics collection, log centralization (CloudWatch Logs), alarm creation (SNS/actions) and operational dashboards.
+Best practices: instrument only necessary metrics, configure appropriate log retention, avoid noisy alerts and integrate with alarms/auto-scaling.
 
 ## CloudTrail
 
-Registra chamadas de API e eventos de gerenciamento e dados (opcional) — quem fez o quê, quando e de onde. Usado para auditoria, investigação de incidentes e conformidade.
-Boas práticas: habilitar um trail multi-região enviando logs para um bucket S3 centralizado (com versionamento e políticas rígidas), proteger o bucket (encryption, bloqueio de deleção), habilitar CloudTrail Insights para anomalias e registrar data events críticos (S3/Lambda) apenas quando necessário devido ao custo/volume.
+Records API calls and management and data events (optional) — who did what, when and from where. Used for auditing, incident investigation and compliance.
+Best practices: enable a multi-region trail sending logs to a centralized S3 bucket (with versioning and strict policies), protect the bucket (encryption, deletion lock), enable CloudTrail Insights for anomalies and record critical data events (S3/Lambda) only when necessary due to cost/volume.
 
 ## CloudFormation
 
-- Ferramenta de Infra-as-Code da AWS para criar, atualizar e deletar recursos de forma declarativa (YAML/JSON).
-- Ideal para automação, padronização e versionamento de infra em ambientes de desenvolvimento e produção.
+- AWS Infra-as-Code tool to create, update and delete resources declaratively (YAML/JSON).
+- Ideal for automation, standardization and infrastructure versioning in development and production environments.
 
 ## Identity and Access Management - IAM
 
-IAM  controla quem pode acessar recursos AWS e com quais permissões (usuários, grupos, roles, policies).
+IAM controls who can access AWS resources and with what permissions (users, groups, roles, policies).
 
-- Principais conceitos:  policies JSON, users, groups, roles (assume role para serviços/identidades externas), políticas gerenciadas e inline.
-- Boas práticas: aplicar princípio do menor privilégio, usar roles em vez de chaves longas, habilitar MFA, rotacionar credenciais e centralizar gestão com AWS Organizations/SCPs quando aplicável.
+- Main concepts: JSON policies, users, groups, roles (assume role for services/external identities), managed and inline policies.
+- Best practices: apply principle of least privilege, use roles instead of long-term keys, enable MFA, rotate credentials and centralize management with AWS Organizations/SCPs when applicable.
 
-## Policies e Roles
+## Policies and Roles
 
-- Policies: são documentos JSON que definem permissões para ações em recursos; podem ser gerenciadas ou inline e aplicadas a usuários, grupos ou roles.
-- Roles: identidades assumíveis por serviços ou usuários externos para obter permissões temporárias - a role oferece tokens - (preferir roles para segurança e menos uso de chaves estáticas).
+- Policies: are JSON documents that define permissions for actions on resources; can be managed or inline and applied to users, groups or roles.
+- Roles: identities assumable by services or external users to obtain temporary permissions - the role provides tokens - (prefer roles for security and less use of static keys).
 
 
 ![alt text](./images/policiesandRoles.png)
 
 
-## Links oficiais
+## Official links
 
-- [IAM (visão geral)](https://docs.aws.amazon.com/iam/)
-- [Policies e JSON policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html)
-- [Roles e AssumeRole](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
-- [Boas práticas de IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)
+- [IAM (overview)](https://docs.aws.amazon.com/iam/)
+- [Policies and JSON policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html)
+- [Roles and AssumeRole](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
+- [IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)
 
 
 

@@ -35,11 +35,6 @@ def lambda_handler(event, context):
         return {'status': 'Not a CSV'}
 ```
 
-
-
-
-
-
 ### Observações
 
 - Lambda: cobrada por número de invocações e pela duração (medida em GB‑seconds); há custo adicional para provisioned concurrency.
@@ -72,6 +67,7 @@ Diferente de VMs, os containers não trazem um sistema operacional completo na i
 
  - Imagem vs container: a imagem é o template imutável (build); o container é a instância em execução dessa imagem.
  - Isolamento: containers isolam processos, redes e sistemas de arquivos usando namespaces e cgroups; eles compartilham o kernel do host (não virtualizam hardware), por isso são mais leves que VMs.
+
 ## SNS e SQS
 
 ### SNS — Simple Notification Service (assíncrono)
@@ -106,13 +102,6 @@ Observações rápidas:
 
 - SNS tende a entregar imediatamente; SQS garante que a mensagem fique persistida até o consumo.
 - Trate idempotência porque ambos podem entregar duplicatas (use FIFO se precisar de ordem/sem duplicatas).
-- Combinação comum: SNS publica um evento e entrega a várias SQS (fan‑out) para que cada serviço consuma de forma independente e organizada.
-
-Observações rápidas:
-
-- SNS tende a entregar imediatamente, SQS garante que a mensagem fique persistida até o consumo.
-- Trate idempotência porque ambos podem entregar duplicatas (use FIFO se precisar de ordem/sem duplicatas).
-
 
 ## Step Functions
 

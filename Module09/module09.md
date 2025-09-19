@@ -1,44 +1,41 @@
-# Segurança na AWS
+# AWS Security
 
-## Boas práticas
+## Best practices
 
+In general, the user has to make decisions about which data should be protected and how. AWS provides the service, but business decisions are obviously the customer's responsibility.
 
-De forma geral, o usuário tem que tomar decisões sobre quais dados devem ser protegidos e como. A AWS oferece o serviço, mas decisões de negócios obviamente são por parte do cliente.
-
-Já vimos sobre responsabilidade compartilhada e a diferença em cada serviço no [Module01](/Module01/module01.md#modelo-de-responsabilidade-compartilhada).
-
+We've already seen about shared responsibility and the difference in each service in [Module01](/Module01/module01.md#modelo-de-responsabilidade-compartilhada).
 
 
-## Criptografia de dados na AWS
 
-- Conceito central: proteger confidencialidade e integridade dos dados usando criptografia em trânsito (TLS) e em repouso (SSE/CMEK), com gestão segura de chaves.
-- Exemplo de uso: API pública atrás de API Gateway com TLS (certificado ACM) e dados armazenados em S3 com SSE-KMS usando uma chave gerenciada (CMEK) para controle e rotação.
+## Data encryption in AWS
 
-- Use chaves gerenciadas pelo AWS KMS, aplique controle de acesso mínimo às chaves, e roteie logs de auditoria para detectar uso indevido.
+- Central concept: protect data confidentiality and integrity using encryption in transit (TLS) and at rest (SSE/CMEK), with secure key management.
+- Usage example: public API behind API Gateway with TLS (ACM certificate) and data stored in S3 with SSE-KMS using a managed key (CMEK) for control and rotation.
 
-Principais serviços/recursos:
-- AWS KMS — gerenciamento e rotação de chaves (conceito: autoridade de chaves).
-  - Exemplo: criar uma CMK no KMS e atribuir como CMEK para um bucket S3.
-- S3/EBS/RDS encryption — criptografia automática em repouso (conceito: proteção de dados armazenados).
-  - Exemplo: habilitar SSE-KMS em um bucket S3 para que objetos sejam criptografados automaticamente.
-- TLS/ACM — criptografia em trânsito e gerenciamento de certificados (conceito: proteger comunicação).
-  - Exemplo: emitir certificado no ACM e anexar ao CloudFront/ALB/API Gateway.
+- Use keys managed by AWS KMS, apply minimal access control to keys, and route audit logs to detect misuse.
 
-## AWS WAF - Web Applicaiton Firewall
+Main services/resources:
+- AWS KMS — key management and rotation (concept: key authority).
+  - Example: create a CMK in KMS and assign as CMEK for an S3 bucket.
+- S3/EBS/RDS encryption — automatic encryption at rest (concept: stored data protection).
+  - Example: enable SSE-KMS in an S3 bucket so objects are automatically encrypted.
+- TLS/ACM — encryption in transit and certificate management (concept: protect communication).
+  - Example: issue certificate in ACM and attach to CloudFront/ALB/API Gateway.
+
+## AWS WAF - Web Application Firewall
 
 
 ![alt text](./images/waf.png)
 
 
-- Conceito central: firewall de aplicação que inspeciona e filtra tráfego HTTP/S com regras gerenciadas e customizadas para bloquear ataques de camada 7(ataques que miram a camada de aplicação do modelo OSI, ou seja: o próprio protocolo HTTP e a lógica da aplicação web).
-- Exemplo de uso: associar AWS WAF ao CloudFront para bloquear SQLi/XSS com regras gerenciadas da AWS e adicionar uma regra rate-based para mitigar scraping e ataques de brute-force.
+- Central concept: application firewall that inspects and filters HTTP/S traffic with managed and custom rules to block layer 7 attacks (attacks that target the application layer of the OSI model, i.e.: the HTTP protocol itself and web application logic).
+- Usage example: associate AWS WAF with CloudFront to block SQLi/XSS with AWS managed rules and add a rate-based rule to mitigate scraping and brute-force attacks.
 
 
-## Links oficiais
+## Official links
 
 - [AWS KMS (Key Management Service)](https://docs.aws.amazon.com/kms/)
 - [Encryption for Amazon S3 (SSE)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingEncryption.html)
 - [TLS and encryption in transit](https://docs.aws.amazon.com/whitepapers/latest/security-best-practices/encryption-in-transit.html)
 - [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/)
-
-## AWS WAF

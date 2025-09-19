@@ -1,3 +1,6 @@
+- [English](challengeStepFunctions.md)
+- [Português](desafioStepFunctions.pt.md)
+
 
 # DESAFIO: Demonstração Step Functions
 

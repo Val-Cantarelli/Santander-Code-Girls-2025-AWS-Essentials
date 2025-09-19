@@ -1,48 +1,136 @@
-# Serviços de armazenamento e CDN
+- [English](module06.md)
+- [Português](module06.pt.md)
+
+# Storage services and CDN
 
 ## Storages:
 
 ### S3
 
 - Amazon S3 - Simple Storage Service
-  - onde guardamos objetos(imagens, backups, logs, etc);
-- Segurança: criptografia em repouso e trânsito;
+  - where we store objects (images, backups, logs, etc);
+- Security: encryption at rest and in transit;
 
-  **É pago por:**
-  - espaço utilizado(GB/mês);
-  - requisições(http);
-  - envio de dados para fora do ambiente da AWS;(dentro da AWS muitas tranferências são gratuitas)
+  **You pay for:**
+  - space used (GB/month);
+  - requests (http);
+  - data transfer out of AWS environment; (within AWS many transfers are free)
   
 
-  **Ciclo de vida:**
-  - tem como configurar para mover os objetos automaticamente entre os tipos de armazenamento disponíveis
-    Exemplo:
-    - Standard: armazenanmento padrão e rápido;
-    - Standard-IA(Infrequent Access): mais barato, mas vai cobrar se você acessar;
-    - Glacier: arquivamento de longo prazo e pode levar entre minutos/horas para retornar o objeto;
+  **Lifecycle:**
+  - you can configure to automatically move objects between available storage types
+    Example:
+    - Standard: standard and fast storage;
+    - Standard-IA (Infrequent Access): cheaper, but will charge if you access;
+    - Glacier: long-term archival and can take minutes/hours to return the object;
     
-    - Exemplo prático: logs que são acessados diariamente por 30 dias, depois de 90 dias são movidos pro Glacier para reduzir custo.
+    - Practical example: logs that are accessed daily for 30 days, after 90 days are moved to Glacier to reduce cost.
 
-Esse é um exemplo de S3 onde estão todos os estáticos de um websoite em produção:
+This is an example of S3 where all the static files of a website in production are:
 
 ![alt text](./images/bucketS3assets.png)
 
 #### Glacier
 
-O Glacier é uma opção de armazenamento de baixo custo, pensado para dados de longa retenção e baixo acesso. Principais pontos:
+Glacier is a low-cost storage option, designed for long-term retention and low-access data. Main points:
 
-- Uso comum: fotos antigas, dados científicos, backups de longo prazo, registros de saúde — tudo que precisa ser guardado, mas raramente acessado.
-- Retenção mínima e custo: Glacier Flexible Retrieval (antigo Glacier) tem retenção mínima recomendada de ~90 dias; Glacier Deep Archive tem retenção mínima recomendada de ~180 dias. Há cobrança por exclusão antecipada e os tempos de recuperação variam conforme a classe (de minutos a horas ou dias).
-- Boas práticas: usar lifecycle rules para mover objetos automaticamente entre classes (Standard → Standard‑IA → Glacier → Deep Archive) e planejar RTO/RPO considerando os tempos de recuperação.
+- Common use: old photos, scientific data, long-term backups, health records — everything that needs to be stored, but rarely accessed.
+- Minimum retention and cost: Glacier Flexible Retrieval (former Glacier) has recommended minimum retention of ~90 days; Glacier Deep Archive has recommended minimum retention of ~180 days. There are charges for early deletion and recovery times vary according to class (from minutes to hours or days).
+- Best practices: use lifecycle rules to automatically move objects between classes (Standard → Standard‑IA → Glacier → Deep Archive) and plan RTO/RPO considering recovery times.
 
-**Conceitos rápidos (entrada → serviço → saída/descrição)**
+**Quick concepts (input → service → output/description)**
 
-| Entrada | Serviço | Saída / Descrição |
+| Input | Service | Output / Description |
 |---|---|---|
-| Lifecycle Policy | S3 | Regras para mover ou excluir objetos automaticamente entre Storage Classes (ex.: Standard → Glacier). |
-| Cross-Region Replication | S3 | Replica objetos em outra região para recuperação de desastre e menor latência regional. |
-| Cache Behavior | CloudFront | Define como o CloudFront armazena e serve conteúdo (TTL, cabeçalhos, query strings, cookies). |
-| Storage Class | S3 | Define o tipo de armazenamento (Standard, Standard‑IA, One Zone‑IA, Glacier Flexible Retrieval, Deep Archive). |
+| Lifecycle Policy | S3 | Rules to automatically move or delete objects between Storage Classes (e.g.: Standard → Glacier). |
+| Cross-Region Replication | S3 | Replicates objects in another region for disaster recovery and lower regional latency. |
+| Cache Behavior | CloudFront | Defines how CloudFront stores and serves content (TTL, headers, query strings, cookies). |
+| Storage Class | S3 | Defines the storage type (Standard, Standard‑IA, One Zone‑IA, Glacier Flexible Retrieval, Deep Archive). |
+
+### Amazon EBS (Elastic Block Store)
+- **Block** storage — used as "HD/SSD" for EC2 instances.
+- Each EBS volume can only be mounted on one EC2 at a time (except in special cases like EBS Multi-Attach).
+- Volume types (optimized for cost, IOPS, throughput).
+- Persistent: even if the EC2 instance is stopped, the volume continues storing data (until deleted).
+
+
+![alt text](./images/ebsVolumes.png)
+
+**Summary:**
+- **S3 → objects** (files, scalable, cheap, with lifecycle).
+- **EBS → blocks** (virtual disks for EC2, I/O performance).
+
+---
+#### Costs and business examples on AWS
+
+
+- Effect of stopping, terminating and deleting instances and volumes:  
+  - **Stop:** the instance is shut down, but the EBS volume remains and continues generating charges.  
+  - **Terminate:** the instance is removed and, depending on configuration, the EBS volume may or may not be deleted.  
+  - **Delete volumes:** when an EBS volume is removed, you stop being charged for it.
+
+
+
+## CloudFront
+
+For the *Cloud Practitioner* certification level, it's enough to understand what the service is and how it's used.
+
+Edge Locations / Points of Presence (PoP) concepts were already seen in [module 01](../Module01/module01.md#como-entender-a-estrutura-da-nuvem).
+
+<p align="center">
+	<img src="./images/diagramCloudfront.png" alt="CloudFront and Edge Locations Diagram" />
+</p>
+
+> Note: the S3 static site endpoint uses HTTP; for HTTPS it's recommended to use CloudFront with an ACM certificate.
+
+## Complementary reading
+
+- [Amazon S3 - Developer Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/)
+- [Amazon CloudFront - Developer Guide](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/)rage services and CDN
+
+## Storages:
+
+### S3
+
+- Amazon S3 - Simple Storage Service
+  - where we store objects (images, backups, logs, etc);
+- Security: encryption at rest and in transit;
+
+  **You pay for:**
+  - space used (GB/month);
+  - requests (http);
+  - data transfer out of AWS environment; (within AWS many transfers are free)
+  
+
+  **Lifecycle:**
+  - you can configure to automatically move objects between available storage types
+    Example:
+    - Standard: standard and fast storage;
+    - Standard-IA (Infrequent Access): cheaper, but will charge if you access;
+    - Glacier: long-term archival and can take minutes/hours to return the object;
+    
+    - Practical example: logs that are accessed daily for 30 days, after 90 days are moved to Glacier to reduce cost.
+
+This is an example of S3 where all the static files of a website in production are:
+
+![alt text](./images/bucketS3assets.png)
+
+#### Glacier
+
+Glacier is a low-cost storage option, designed for long-term retention and low-access data. Main points:
+
+- Common use: old photos, scientific data, long-term backups, health records — everything that needs to be stored, but rarely accessed.
+- Minimum retention and cost: Glacier Flexible Retrieval (former Glacier) has recommended minimum retention of ~90 days; Glacier Deep Archive has recommended minimum retention of ~180 days. There are charges for early deletion and recovery times vary according to class (from minutes to hours or days).
+- Best practices: use lifecycle rules to automatically move objects between classes (Standard → Standard‑IA → Glacier → Deep Archive) and plan RTO/RPO considering recovery times.
+
+**Quick concepts (input → service → output/description)**
+
+| Input | Service | Output / Description |
+|---|---|---|
+| Lifecycle Policy | S3 | Rules to automatically move or delete objects between Storage Classes (e.g.: Standard → Glacier). |
+| Cross-Region Replication | S3 | Replicates objects in another region for disaster recovery and lower regional latency. |
+| Cache Behavior | CloudFront | Defines how CloudFront stores and serves content (TTL, headers, query strings, cookies). |
+| Storage Class | S3 | Defines the storage type (Standard, Standard‑IA, One Zone‑IA, Glacier Flexible Retrieval, Deep Archive). |
 
 ### Amazon EBS (Elastic Block Store)
 - Armazenamento em **blocos** — usado como “HD/SSD” das instâncias EC2.
@@ -58,21 +146,21 @@ O Glacier é uma opção de armazenamento de baixo custo, pensado para dados de 
 - **EBS → blocos** (discos virtuais para EC2, performance de I/O).
 
 ---
-#### Custos e exemplos de negócios na AWS
+#### Costs and business examples on AWS
 
 
-- Efeito de parar, encerrar e deletar instâncias e volumes:  
-  - **Parar (stop):** a instância é desligada, mas o volume EBS permanece e continua gerando cobrança.  
-  - **Encerrar (terminate):** a instância é removida e, dependendo da configuração, o volume EBS pode ser deletado ou não.  
-  - **Deletar volumes:** quando removido um volume EBS, você deixa de ser cobrado por ele.
+- Effect of stopping, terminating and deleting instances and volumes:  
+  - **Stop:** the instance is shut down, but the EBS volume remains and continues generating charges.  
+  - **Terminate:** the instance is removed and, depending on configuration, the EBS volume may or may not be deleted.  
+  - **Delete volumes:** when an EBS volume is removed, you stop being charged for it.
 
 
 
 ## CloudFront
 
-Para o nível de certificação *Cloud Practitioner* basta entender o que é o serviço e como ele é utilizado.
+For the *Cloud Practitioner* certification level, it's enough to understand what the service is and how it's used.
 
-Conceitos de Edge Locations / Points of Presence (PoP) já foram vistos no [módulo 01](../Module01/module01.md#como-entender-a-estrutura-da-nuvem).
+Edge Locations / Points of Presence (PoP) concepts were already seen in [module 01](../Module01/module01.md#como-entender-a-estrutura-da-nuvem).
 
 <p align="center">
 	<img src="./images/diagramCloudfront.png" alt="Diagrama CloudFront e Edge Locations" />

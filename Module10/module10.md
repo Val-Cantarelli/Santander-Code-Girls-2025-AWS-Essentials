@@ -1,13 +1,13 @@
-# Desenvolvimento e ferramentas
+# Development and tools
 
-## SDK e AWS CLI
+## SDK and AWS CLI
 
 ### SDK
-São bibliotecas diferentes de acordo com a linguagem de programação. É uma das formas de acessar recursos AWS integrando com os comandos no code.
+They are different libraries according to the programming language. It's one of the ways to access AWS resources by integrating with commands in code.
 
-#### Exemplo de uso do SDK com Python:
+#### SDK usage example with Python:
 
-**Exemplo de uso do boto3 para recuperar credenciais do AWS Secrets Manager durante a execução (lambda_handler).**
+**Example of using boto3 to retrieve credentials from AWS Secrets Manager during execution (lambda_handler).**
 
 ```python
 (...)
@@ -30,28 +30,27 @@ def get_db_credentials(secret_name: str, region_name="us-east-1"):
 
 ### AWS CLI
 
-É outra forma de acessar AWS, mas integrada com a sua máquina. É muito útil pra rodar scritpt por exemplo, já que o CloudShell não permite pois é uma ferramenta internad do console AWS. Basta atualizar, configurar as chaves - que são criadas no usuário - e isso vai permitir rodar comandos diretos na aws.
+It's another way to access AWS, but integrated with your machine. It's very useful for running scripts for example, since CloudShell doesn't allow it because it's an internal tool of the AWS console. Just update, configure the keys - which are created in the user - and this will allow running direct commands on aws.
 
 ![alt text](./images/CLIxSDK.png)
 
 ## CloudFormation
 
-Já havíamos visto sobre CloudFormation no Módulo 8 e onde optei por criar uma stack via template para a criação de uma lambda function que retornava uma mensagem quando chamada.[Ver desafio](/Module08/desafioCloudFormation.md)
+We had already seen about CloudFormation in Module 8 and where I chose to create a stack via template for creating a lambda function that returned a message when called. [See challenge](/Module08/cloudFormationChallenge.md)
 
-Como a aula traçou um comparativo com o Terraform, resolvi usá-lo para esse desafio do Modulo 10. [Ver desafio](./desafio/desafioTerraform.md)
+As the class drew a comparison with Terraform, I decided to use it for this Module 10 challenge. [See challenge](./project/terraformChallenge.md)
 
 
 ## CodeDeploy
 
+AWS CodeDeploy is a service that automates the delivery of new versions of an application to servers, containers or functions (Lambda), in a secure and repeatable way; it takes care of copying files, running necessary steps before and after installation, and allows switching to the new version with little or no downtime, in addition to helping to go back to the previous version if something goes wrong.
 
-O AWS CodeDeploy é um serviço que automatiza a entrega de novas versões de um aplicativo para servidores, containers ou funções (Lambda), de forma segura e repetível; ele cuida de copiar os arquivos, rodar os passos necessários antes e depois da instalação, e permite trocar para a nova versão com pouco ou nenhum tempo de parada, além de ajudar a voltar à versão anterior se algo der errado.
-
-- Serviço gerenciado para automatizar implantações de aplicações em instâncias EC2/on‑premises, AWS Lambda e Amazon ECS.
-- Suporta modos de implantação in‑place (atualiza a instância existente) e blue/green (cria novo ambiente e faz o cutover para reduzir downtime).
-- Conceitos-chave: aplicação, grupo de implantação e revision (artefato a ser implantado); permite políticas de rollout (percentual por vez, alarmes, etc.).
-- Lifecycle hooks: scripts ou ações para executar antes/depois das etapas de instalação, validação e limpeza.
-- Integração com CI/CD (CodePipeline, Jenkins, GitHub Actions) e monitoramento para habilitar rollback automático em falhas.
-- Benefícios: implantações reproduzíveis, rastreáveis, com menor downtime e possibilidade de rollback controlado.
+- Managed service to automate application deployments on EC2/on‑premises instances, AWS Lambda and Amazon ECS.
+- Supports in‑place deployment modes (updates existing instance) and blue/green (creates new environment and does cutover to reduce downtime).
+- Key concepts: application, deployment group and revision (artifact to be deployed); allows rollout policies (percentage at a time, alarms, etc.).
+- Lifecycle hooks: scripts or actions to execute before/after installation, validation and cleanup steps.
+- Integration with CI/CD (CodePipeline, Jenkins, GitHub Actions) and monitoring to enable automatic rollback on failures.
+- Benefits: reproducible, traceable deployments, with less downtime and possibility of controlled rollback.
 
 
 

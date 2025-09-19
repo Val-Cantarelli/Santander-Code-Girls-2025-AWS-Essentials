@@ -1,87 +1,91 @@
-## Como entender a estrutura da nuvem?
 
-Antes da AWS, manter um sistema em produção exigia:
+- [English](module01.md)
+- [Português](module01.pt.md)
 
-- Investimento em servidores físicos, energia e espaço;
-- Equipe especializada para manutenção;
-- Custos fixos, mesmo sem uso total;
-- Escalabilidade limitada (dependia de mais investimento).
+## How to understand the cloud structure?
 
-A ideia de nuvem é abstrata, mas construída fisicamente por meio de datacenters físicos espalhados pelo mundo e agregados por regiões. Para exemplificar, peguemos a América do Sul:
+Before AWS, maintaining a system in production required:
 
-- **Region:** América do Sul.
-- **Availability Zone - AZs:** são usadas para hospedar recursos computacionais (EC2, banco de dados, etc.) e garantir disponibilidade e redundância. Existem 3 AZs sob essa região em São Paulo;
-    * Nota: uma AZ tem provavelmente 2 ou mais datacenters conectados.
+- Investment in physical servers, energy, and space;
+- Specialized maintenance staff;
+- Fixed costs, even without full utilization;
+- Limited scalability (depended on further investment).
 
-- **Edge location:** datacenters menores que são usados para **replicar conteúdo** e **reduzir latência**, fornecendo dados mais rapidamente para os clientes através do serviço **Amazon CloudFront** (Content Delivery Network – CDN), por exemplo. Tanto as Edge Locations quanto as AZs fazem parte da infraestrutura global da AWS, mas as Edge Locations são especialmente acessíveis para empresas que desejam entregar conteúdo (como streaming) de forma eficiente em regiões como a América do Sul, mesmo que o processamento principal esteja em outra região.
+The idea of the cloud is abstract, but it is physically built through physical data centers spread across the world and aggregated by regions. To illustrate, let's take South America:
 
-    Para saber mais, consulte a [Infraestrutura global da AWS](https://aws.amazon.com/about-aws/global-infrastructure/).
+- **Region:** South America.
+- **Availability Zone - AZs:** used to host computing resources (EC2, database, etc.) and ensure availability and redundancy. There are 3 AZs under this region in São Paulo;
+    * Note: an AZ probably has 2 or more connected data centers.
 
-Hoje, o que a AWS oferece é a infraestrutura física e global em segundos, e você apenas utiliza os serviços. Aqui já esbarramos em um conceito muito importante e inicial sobre a AWS: a separação de responsabilidade entre a AWS e o cliente.
+- **Edge location:** smaller data centers that are used to **replicate content** and **reduce latency**, providing data more quickly to customers through the **Amazon CloudFront** (Content Delivery Network – CDN) service, for example. Both Edge Locations and AZs are part of AWS's global infrastructure, but Edge Locations are especially accessible for companies that want to deliver content (such as streaming) efficiently in regions such as South America, even if the main processing is in another region.
 
-## Modelo de responsabilidade compartilhada
+    To learn more, see [AWS Global Infrastructure](https://aws.amazon.com/about-aws/global-infrastructure/).
 
-- **Security of the Cloud:** AWS é responsável pela segurança **DA** estrutura física (datacenters, hardware, redes).
-- **Security in the Cloud:** o cliente é responsável pela segurança **DENTRO** da nuvem. Isso inclui proteger as credenciais de acesso, manter sistemas operacionais e softwares atualizados e manter boas práticas no uso dos serviços. Se houver um vazamento de senha ou uma falha por falta de atualização, a responsabilidade é do cliente.
+Today, AWS offers physical and global infrastructure in seconds, and you just use the services. Here we come across a very important and initial concept about AWS: the separation of responsibility between AWS and the customer.
 
-## Modelos de Serviço em Nuvem: IaaS, PaaS e SaaS
+## Shared Responsibility Model
 
-Na AWS (e em outras nuvens), existem diferentes modelos de serviço:
+- **Security of the Cloud:** AWS is responsible for the security **OF** the physical infrastructure (data centers, hardware, networks).
+- **Security in the Cloud:** the customer is responsible for security **WITHIN** the cloud. This includes protecting access credentials, keeping operating systems and software up to date, and maintaining best practices in the use of services. If there is a password leak or a failure due to lack of updating, the responsibility lies with the customer.
 
-- **IaaS (Infrastructure as a Service):** você gerencia servidores, armazenamento e redes, enquanto a AWS cuida da infraestrutura física. Ex: EC2;
-- **PaaS (Platform as a Service):** você gerencia apenas as aplicações, enquanto a AWS gerencia o sistema operacional, middleware e infraestrutura. Ex: Elastic Beanstalk;
-- **SaaS (Software as a Service):** você apenas usa o software, sem se preocupar com infraestrutura ou plataforma. Ex: qualquer serviço onde você só faz a conta e usa; Netflix, Gmail, GitHub.
+## Cloud Service Models: IaaS, PaaS, and SaaS
 
-Cada modelo apresenta um grau distinto de responsabilidade entre o cliente e a AWS. Para mais detalhes de como essas responsabilidades se distribuem em cada modelo, consulte o [Modelo de Responsabilidade Compartilhada](https://docs.aws.amazon.com/prescriptive-guidance/latest/strategy-accelerating-security-maturity/understanding-the-security-scope.html).
+In AWS (and other clouds), there are different service models:
 
-## Primeiros passos na plataforma AWS
+- **IaaS (Infrastructure as a Service):** you manage servers, storage, and networks, while AWS takes care of the physical infrastructure. Example: EC2;
+- **PaaS (Platform as a Service):** you only manage the applications, while AWS manages the operating system, middleware, and infrastructure. Example: Elastic Beanstalk;
+- **SaaS (Software as a Service):** you only use the software, without worrying about infrastructure or platform. Example: any service where you just create an account and use it; Netflix, Gmail, GitHub.
 
-### 1. Login e Segurança (Identity and Access Management - IAM)
+Each model presents a different degree of responsibility between the customer and AWS. For more details on how these responsibilities are distributed in each model, see the [Shared Responsibility Model](https://docs.aws.amazon.com/prescriptive-guidance/latest/strategy-accelerating-security-maturity/understanding-the-security-scope.html).
 
-- Evitar uso da conta root no dia a dia;
-- Criar usuários com o princípio do menor privilégio (conceder apenas as permissões necessárias) e organizá-los em grupos;
-- Gerenciar permissões via políticas — podem ser gerenciadas ou customizadas;
-- Ativar MFA (camada extra de segurança).
+## Getting started on the AWS platform
 
-Aqui vemos permissões que foram passadas ao usuário através do grupo ProjectOwner. Note que há políticas tanto da AWS quanto costomizadas:
+### 1. Login and Security (Identity and Access Management - IAM)
+
+- Avoid using the root account on a daily basis;
+- Create users with the principle of least privilege (grant only the necessary permissions) and organize them into groups;
+- Manage permissions via policies — they can be managed or customized;
+- Enable MFA (extra layer of security).
+
+Here we see permissions that have been passed to the user through the ProjectOwner group. Note that there are both AWS and customized policies:
 
 ![alt text](./images/policiesValdielenUser.png)
 
 
-### 2. Controle de gastos e alertas
+### 2. Spending control and alerts
 
-- **AWS Free Tier:** A AWS oferece uma camada gratuita (Free Tier) com limites mensais para muitos serviços por um determinado tempo. Fique atento para não ultrapassar esses limites.
+- **AWS Free Tier:** AWS offers a free tier with monthly limits for many services for a certain period of time. Be careful not to exceed these limits.
 
-> É **responsabilidade do cliente** acompanhar as alterações no serviço. Recentemente, julho/2025, a AWS alterou algumas políticas sobre a [Free Tier](https://aws.amazon.com/pt/free/terms/). A partir dessa data se você criar uma conta via IAM Identity Center você será direcionado ao Organizations que, por definição, é para empresas no modelo de conta paga - oefeito colateral é a perda dos benefícios da camada gratuita. Para utilizar a conta individual e usufruir dos benefícios da Free Tier é necessário crir o usuário via IAM comum.
+> It is the **customer's responsibility** to monitor changes to the service. Recently, in July 2025, AWS changed some policies regarding the [Free Tier](https://aws.amazon.com/pt/free/terms/). From that date on, if you create an account via IAM Identity Center, you will be directed to Organizations, which, by definition, is for companies with a paid account model—the side effect is the loss of the benefits of the free tier. To use the individual account and enjoy the benefits of the Free Tier, you must create the user via the common IAM.
 
-- **Billing Dashboard:** No Console da AWS, acesse o painel de faturamento (Billing Dashboard) para visualizar gastos atuais, histórico de cobranças e detalhes por serviço.
+- **Billing Dashboard:** In the AWS Console, access the Billing Dashboard to view current spending, billing history, and details by service.
 
-- **Orçamentos (Budgets):** Você pode criar alertas de orçamento (Budgets) para ser notificado por e-mail quando atingir determinado valor de gasto.
+- **Budgets:** You can create budget alerts to be notified by email when you reach a certain spending amount.
 
-- **Cost Explorer:** Ferramenta visual para analisar e entender onde estão os principais custos.
+- **Cost Explorer:** Visual tool to analyze and understand where the main costs are.
 
-- **Alertas de uso:** Configure alertas para ser avisado quando estiver próximo de atingir o limite do Free Tier ou de um orçamento definido.
+- **Usage alerts:** Set up alerts to be notified when you are close to reaching the Free Tier limit or a defined budget.
 
-- **Dica:** Sempre encerre (terminate) recursos que não estiver usando, como instâncias EC2, volumes EBS e buckets S3, para evitar cobranças desnecessárias.
+- **Tip:** Always terminate resources you are not using, such as EC2 instances, EBS volumes, and S3 buckets, to avoid unnecessary charges.
 
-### 3. Formas de acessar os serviços AWS: Console, AWS CLI e CloudShell
+### 3. Ways to access AWS services: Console, AWS CLI, and CloudShell
 
-- **Console:** acessada pelo navegador. Mais intuitiva, ideal para iniciantes ou tarefas específicas.
-- **CLI (Command Line Interface):** interface em linha de comando, ideal para automação, scripts e maior controle dos serviços. Requer configuração inicial de credenciais, mas é o mais usado em desenvolvimento.
+- **Console:** accessed through a browser. More intuitive, ideal for beginners or specific tasks.
+- **CLI (Command Line Interface):** command line interface, ideal for automation, scripts, and greater control of services. Requires initial credential configuration, but is most commonly used in development.
 
-**Exemplos básicos (AWS CLI):**
+**Basic examples (AWS CLI):**
 
 ```bash
-# Configurar credenciais - me permite interagir com os endpoints públicos da AWS. É preciso gerar uma access Key no usuário via IAM e inserir nos campos correspondentes depois de rodar o comando abaixo:
+# Configure credentials - allows me to interact with AWS public endpoints. You need to generate an access key for the user via IAM and enter it in the corresponding fields after running the command below:
 aws configure
 
-# Depois de configurado, é possível visualizar recursos em uso:
-# Listar buckets S3
+# Once configured, you can view resources in use:
+# List S3 buckets
 aws s3 ls
 
-# Descrever instâncias EC2
+# Describe EC2 instances
 aws ec2 describe-instances
 ```
 
-- **CloudShell:** ambiente dentro da AWS. Não consigo rodar os scripts locais, por exemplo, mas consigo visualizar informações da conta e serviços.
+- **CloudShell:** environment within AWS. I cannot run local scripts, for example, but I can view account and service information.
 

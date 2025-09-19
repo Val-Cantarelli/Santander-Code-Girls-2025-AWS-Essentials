@@ -1,25 +1,25 @@
-# Automação e DevOps
+# Automation and DevOps
 
 ## CloudFormation
 
-IaC para criar recursos usando JSON e YAML templates(vimos esse assunto em diversas situações no curso)
+IaC to create resources using JSON and YAML templates (we've seen this topic in various situations throughout the course)
 
 ## Lambda
 
-Executa código sem necessidade de gerenciar servidores. É chamado, toma ações- dentro de 15minutos- e "desliga"
+Executes code without the need to manage servers. It's called, takes actions - within 15 minutes - and "shuts down"
 
 ## CodePipeline
 
-Sobe o code, roda os testes e faz deploy.
+Uploads the code, runs tests and deploys.
 
 ## System Manager
 
-Ajuda a manter os serviços atualizados, automatiza tarefas operacionais e gerencia instâncias.
+Helps keep services updated, automates operational tasks and manages instances.
 
 ## Step Function
-Cria fluxos de trabalho 
+Creates workflows
 
 ## SDK 
-Já visto no módulo anterior e, inclusive, feito um [demo](/Module10/module10.md#cloudformation)
+Already seen in the previous module and even made a [demo](/Module10/module10.md#cloudformation)
 
 

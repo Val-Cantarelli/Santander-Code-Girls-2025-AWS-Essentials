@@ -1,8 +1,11 @@
-# Criando recursos na AWS
+- [English](module03.md)
+- [Português](module03.pt.md)
 
-## Criando instância EC2
+# Creating AWS resources
 
-Pelo **Console**  ou via CLI:  
+## Creating EC2 instance
+
+Through **Console** or via CLI:  
 
 ```bash
 aws ec2 run-instances \
@@ -11,32 +14,32 @@ aws ec2 run-instances \
   --instance-type t2.micro \
   --key-name <my-key> \
   --security-groups <nome-do-SG>
-````
+```
 
-### Acesso via SSH
+### SSH access
 
-- baixar o arquivo "my-key.pem" que foi criado em Keypair;
-- atribui as permissões: chmod 400 my-key.pem;
-- run: ssh -i my-key.pem ec2-user@ip-da-instancia
+- download the "my-key.pem" file that was created in Keypair;
+- assign permissions: chmod 400 my-key.pem;
+- run: ssh -i my-key.pem ec2-user@instance-ip
 
 
-Na própria instância é possível ver as instruções para conexão:
+In the instance itself you can see the connection instructions:
 
 
 ![alt text](./images/connectViaSSH.png)
 
-Se tudo der certo, provavelmente você terá o seguinte:
+If everything goes well, you will probably have the following:
 
 ![alt text](<./images/ssh-ec2.png>)
 
 
 
-## Desafio AWS: Criando um bucket S3 e hospedando um website estático
+## AWS Challenge: Creating an S3 bucket and hosting a static website
 
-Nesse módulo, vimos como criar um bucket S3 via console da AWS, enviar os arquivos, alterar a política permitindo leitura pública dos objetos. 
+In this module, we saw how to create an S3 bucket via AWS console, upload files, change the policy allowing public reading of objects.
 
-Decidi então criar um [script](deploy_website_s3.sh) bash com AWS CLI e é possível ver o resultado neste endpoint: [DesafioAWS](http://dio-staticwebsite.s3-website-us-east-1.amazonaws.com/).
+I decided to create a bash [script](deploy_website_s3.sh) with AWS CLI and you can see the result at this endpoint: [AWSChallenge](http://dio-staticwebsite.s3-website-us-east-1.amazonaws.com/).
 
-> **Atenção:** O endpoint acima utiliza HTTP (não HTTPS). Navegadores modernos podem exibir avisos de segurança ao acessar o site, especialmente em modo anônimo/incógnito ou em dispositivos móveis.  
-> Para HTTPS, seria necessário configurar certificado SSL - não é o escopo da aula agora.
+> **Attention:** The endpoint above uses HTTP (not HTTPS). Modern browsers may display security warnings when accessing the site, especially in incognito/private mode or on mobile devices.  
+> For HTTPS, it would be necessary to configure SSL certificate - this is not the scope of the class now.
 

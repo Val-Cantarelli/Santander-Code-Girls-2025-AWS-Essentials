@@ -1,55 +1,58 @@
+- [English](module05.md)
+- [Português](module05.pt.md)
+
 ## RDS
 
-É o serviço de bancos de dados relacionais (relacionamento entre tabelas) da AWS.
+It is the relational database service (relationship between tables) of AWS.
 
 <p align="center">
-  <img src="./images/RDStypes.png" alt="Tipos de engines suportadas pelo Amazon RDS" />
+  <img src="./images/RDStypes.png" alt="Engine types supported by Amazon RDS" />
 </p>
 
-- **Amazon Aurora:** Banco relacional compatível com MySQL e PostgreSQL, otimizado pela AWS. Alta performance e escalabilidade; indicado quando precisa de throughput maior que MySQL/Postgres gerenciados. Custo geralmente maior, mas oferece recursos avançados de replicação e recuperação.
-- **Oracle:** Banco comercial maduro, recursos avançados (PL/SQL, particionamento, etc.). Bom para legado empresarial que já usa Oracle; custo de licença elevado.
-- **Microsoft SQL Server:** Banco comercial com forte integração ao ecossistema Microsoft (.NET, SSIS, etc.). Uso comum em aplicações corporativas Windows; também tem custo de licença.
-- **MySQL:** Open source, fácil de usar e amplamente suportado. Boa escolha para aplicações web tradicionais; menor custo operacional.
-- **PostgreSQL:** Open source, foco em conformidade ACID e funcionalidades avançadas (JSONB, extensões). Excelente para consultas complexas e consistência.
-- **MariaDB:** Fork do MySQL com diferenças/ajustes de compatibilidade. Alternativa ao MySQL dependendo da versão/comunidade.
+- **Amazon Aurora:** Relational database compatible with MySQL and PostgreSQL, optimized by AWS. High performance and scalability; indicated when you need higher throughput than managed MySQL/Postgres. Generally higher cost, but offers advanced replication and recovery features.
+- **Oracle:** Mature commercial database, advanced features (PL/SQL, partitioning, etc.). Good for enterprise legacy that already uses Oracle; high licensing cost.
+- **Microsoft SQL Server:** Commercial database with strong integration to Microsoft ecosystem (.NET, SSIS, etc.). Common use in Windows corporate applications; also has licensing cost.
+- **MySQL:** Open source, easy to use and widely supported. Good choice for traditional web applications; lower operational cost.
+- **PostgreSQL:** Open source, focus on ACID compliance and advanced features (JSONB, extensions). Excellent for complex queries and consistency.
+- **MariaDB:** MySQL fork with compatibility differences/adjustments. Alternative to MySQL depending on version/community.
 
-Observações rápidas:
-- A escolha da engine depende de compatibilidade, custo de licenciamento, funcionalidades e escala.
-- Para novos projetos sem restrições, PostgreSQL ou MySQL são boas opções (Aurora se precisar de mais performance).
-- RDS gerencia backups, patching e alta disponibilidade (Multi‑AZ), reduzindo esforço operacional.
+Quick notes:
+- Engine choice depends on compatibility, licensing cost, features and scale.
+- For new projects without restrictions, PostgreSQL or MySQL are good options (Aurora if you need more performance).
+- RDS manages backups, patching and high availability (Multi‑AZ), reducing operational effort.
 
-### E por que não só colocar um servidor de banco de dados dentro e uma EC2? 
-O RDS oferece o gerenciamento completo (backups automáticos, patching, replicas, monitoramento e escalabilidade). Caso contrário, seria preciso acessar a EC2 e configurar/operar tudo manualmente — o que fica ainda mais complexo se houver vários servidores ou engines diferentes.
+### And why not just put a database server inside an EC2? 
+RDS offers complete management (automatic backups, patching, replicas, monitoring and scalability). Otherwise, you would need to access EC2 and configure/operate everything manually — which becomes even more complex if there are multiple servers or different engines.
 
 ## DynamoDB - NoSQL
 
-É o serviço de banco de dados não relacional da AWS. É schema-less: você cria tabelas, mas os itens (registros) não precisam ter os mesmos atributos — isso facilita trabalhar com dados semiestruturados.
+It is AWS's non-relational database service. It is schema-less: you create tables, but items (records) don't need to have the same attributes — this makes it easier to work with semi-structured data.
 
-- Modos de capacidade:
-  - **On-demand:** escala automaticamente sem necessidade de provisionar throughput (bom para cargas imprevisíveis);
-  - **Provisioned:** você define capacidade de leitura/gravação (RCU/WCU) — útil para workloads estáveis e otimização de custos.
-- **Global Tables:** replicação multi-região gerenciada para baixa latência global e recuperação de desastre.
-- **TTL:** time-to-live para expiração automática de itens.
-- **Streams:** fluxo de alterações (INSERT/UPDATE/REMOVE) para integração com Lambda, processamento de eventos e replicação customizada.
-- **Transações:** suporte a transações ACID em múltiplas operações dentro do DynamoDB.
-- **Índices:** GSI (Global Secondary Index) e LSI (Local Secondary Index) para consultas flexíveis.
+- Capacity modes:
+  - **On-demand:** scales automatically without needing to provision throughput (good for unpredictable loads);
+  - **Provisioned:** you define read/write capacity (RCU/WCU) — useful for stable workloads and cost optimization.
+- **Global Tables:** managed multi-region replication for global low latency and disaster recovery.
+- **TTL:** time-to-live for automatic item expiration.
+- **Streams:** change flow (INSERT/UPDATE/REMOVE) for Lambda integration, event processing and custom replication.
+- **Transactions:** ACID transaction support in multiple operations within DynamoDB.
+- **Indexes:** GSI (Global Secondary Index) and LSI (Local Secondary Index) for flexible queries.
 
-Exemplo CLI (inserir item):
+CLI example (insert item):
 
 ```bash
 aws dynamodb put-item --table-name MinhaTabela --item '{"id":{"S":"123"},"nome":{"S":"teste"}}'
 ```
 
-## Backup e recuperação de dados
+## Data backup and recovery
 
-- Guarda o que é crucial pra subir o sistema rapidamente no caso de ataque;
-- RPO (Recovery Point Objective): quanto dado pode ser perdido sem danos críticos ao negócio.  
-- RTO (Recovery Time Objective): quanto tempo o sistema pode ficar fora do ar.  
-- Armazenamento e ferramentas: snapshots automáticos do RDS, Point-in-Time Recovery (PITR), AWS Backup para planos e retenção, e S3 para armazenar dumps/export.  
-- Boas práticas: automatizar políticas de retenção, replicar snapshots entre regiões para DR, e testar restores regularmente.
+- Keep what is crucial to get the system up quickly in case of attack;
+- RPO (Recovery Point Objective): how much data can be lost without critical damage to the business.  
+- RTO (Recovery Time Objective): how long the system can be down.  
+- Storage and tools: automatic RDS snapshots, Point-in-Time Recovery (PITR), AWS Backup for plans and retention, and S3 to store dumps/export.  
+- Best practices: automate retention policies, replicate snapshots between regions for DR, and test restores regularly.
 
 
-Onde armazenar?
+### Where to store?
 
 - S3;
-- [AWS Backup](https://docs.aws.amazon.com/aws-backup/latest/devguide/):gerenciar e automatizar o backup;
+- [AWS Backup](https://docs.aws.amazon.com/aws-backup/latest/devguide/): manage and automate backup;

@@ -24,4 +24,4 @@ E esses conceitos é que fazem uma instância de EC2: CPU e memória da VM + ima
 - O uso dos recursos influencia diretamente na cobrança:  
   - **On-demand:** você paga apenas pelo tempo de uso da instância, sem compromisso de longo prazo.  
   - **Reservado:** você se compromete com um período (ex: 1 ou 3 anos) e recebe desconto significativo.  
-  - **Spot:** utiliza capacidade ociosa da AWS com preços reduzidos, mas pode ser interrompida a qualquer momento. 
+  - **Spot:** utiliza capacidade ociosa da AWS com preços reduzidos, mas pode ser interrompida a qualquer momento.
