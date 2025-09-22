@@ -1,5 +1,4 @@
-- [English](module09.md)
-- [Português](module09.pt.md)
+
 
 # AWS Security
 

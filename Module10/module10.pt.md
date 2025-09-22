@@ -1,5 +1,4 @@
-- [English](module10.md)
-- [Português](module10.pt.md)
+
 
 # Desenvolvimento e ferramentas
 

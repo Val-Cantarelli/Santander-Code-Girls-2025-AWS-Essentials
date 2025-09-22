@@ -1,5 +1,4 @@
-- [English](module01.md)
-- [Português](module01.pt.md)
+
 
 ## Como entender a estrutura da nuvem?
 

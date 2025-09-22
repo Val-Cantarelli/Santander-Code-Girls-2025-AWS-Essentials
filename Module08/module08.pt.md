@@ -1,5 +1,4 @@
-- [English](module08.md)
-- [Português](module08.pt.md)
+
 
 # Gerenciamento e governança AWS
 

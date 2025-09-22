@@ -1,7 +1,4 @@
 
-- [English](module01.md)
-- [Português](module01.pt.md)
-
 ## How to understand the cloud structure?
 
 Before AWS, maintaining a system in production required:

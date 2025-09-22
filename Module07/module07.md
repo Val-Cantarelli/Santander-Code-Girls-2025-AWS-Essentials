@@ -1,5 +1,3 @@
-- [English](module07.md)
-- [Português](module07.pt.md)
 
 # Advanced and intermediate AWS resources
 

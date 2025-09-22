@@ -1,5 +1,4 @@
-- [English](module02.md)
-- [Português](module02.pt.md)
+
 
 # EC2 - Elastic Compute Cloud
 

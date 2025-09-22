@@ -1,5 +1,3 @@
-- [English](module03.md)
-- [Português](module03.pt.md)
 
 # Criando recursos na AWS
 

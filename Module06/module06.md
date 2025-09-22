@@ -1,5 +1,4 @@
-- [English](module06.md)
-- [Português](module06.pt.md)
+
 
 # Storage services and CDN
 
