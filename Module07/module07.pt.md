@@ -1,4 +1,5 @@
-
+- [English](module07.md)
+- [Português](module07.pt.md)
 
 # Recursos avançados e intermediários da AWS
 

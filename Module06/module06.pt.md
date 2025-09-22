@@ -1,3 +1,5 @@
+- [English](module06.md)
+- [Português](module06.pt.md)
 
 # Serviços de armazenamento e CDN
 
